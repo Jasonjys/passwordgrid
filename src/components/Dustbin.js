@@ -21,12 +21,6 @@ const dustbinTarget = {
 	},
 }
 
-// @DropTarget(props => props.accepts, dustbinTarget, (connect, monitor) => ({
-// 	connectDropTarget: connect.dropTarget(),
-// 	isOver: monitor.isOver(),
-// 	canDrop: monitor.canDrop(),
-// }))
-
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
