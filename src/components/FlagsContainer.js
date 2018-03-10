@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import update from 'immutability-helper'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import Flag from './Flag'
 
 const style = {
@@ -94,4 +92,4 @@ class FlagsContainer extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(FlagsContainer)
+export default FlagsContainer
