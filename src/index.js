@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker'
 
 const rootEl = document.getElementById('root');
 
-observe(knightPosition =>
+observe(flagPosition =>
   ReactDOM.render(
     <App flagPosition={flagPosition}/>,
     rootEl

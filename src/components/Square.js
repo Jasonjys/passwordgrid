@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { ItemTypes } from './ItemTypes';
+import ItemTypes from './ItemTypes';
 import { DropTarget } from 'react-dnd';
+import { moveFlag } from './Drag';
 
 const squareTarget = {
   drop(props) {
@@ -59,4 +60,4 @@ class Square extends Component {
   }
 }
 
-export default Square;
+export default DropTarget(ItemTypes.FLAG, squareTarget, collect)(Square);;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Square from './Square'
 import Flag from './Flag'
-import ItemTypes from './ItemTypes'
 
 class Grid extends Component {
   constructor(props) {

@@ -14,7 +14,7 @@ export function observe(o) {
   emitChange();
 }
 
-export function moveflag(toX, toY) {
+export function moveFlag(toX, toY) {
   flagPosition = [toX, toY];
   emitChange();
 }
