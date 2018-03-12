@@ -14,21 +14,30 @@ const style = {
 }
 
 const flagSource = {
-  beginDrag(props) {
+  beginDrag (props) {
     return {
       id: props.id,
       index: props.index,
+      dropped: !!props.dropped
     }
-  },
+  }
 }
 
 const flagTarget = {
-  hover(props, monitor, component) {
+  hover (props, monitor, component) {
+    const draggingDroppedFlag = monitor.getItem().dropped
     const dragIndex = monitor.getItem().index
-    const hoverIndex = props.index
+    console.log('draggingDroppedFlag: ', draggingDroppedFlag)
 
+    const sourceDropped = props.dropped
+    console.log('targetDropped: ', sourceDropped)
+    const hoverIndex = props.index
+    const draggingIntoGrid = !draggingDroppedFlag && sourceDropped
+
+    console.log('draggingIntoGrid: ', draggingIntoGrid)
     // Don't replace items with themselves
-    if (dragIndex === hoverIndex) {
+    if (!draggingIntoGrid && (dragIndex === hoverIndex)) {
+      console.log("Don't replace items with themselves")
       return
     }
 
@@ -50,42 +59,50 @@ const flagTarget = {
 
     // Dragging downwards
     if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      console.log('downwards')
       return
     }
 
     // Dragging upwards
     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      console.log('upwards')
       return
     }
 
+    console.log('dragIndex: ', dragIndex)
+    console.log('hoverIndex: ', hoverIndex)
     // Time to actually perform the action
-    props.moveFlag(dragIndex, hoverIndex)
+    props.moveFlag(dragIndex, hoverIndex, sourceDropped, draggingIntoGrid)
 
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
     // but it's good here for the sake of performance
     // to avoid expensive index searches.
     monitor.getItem().index = hoverIndex
-  },
+  }
 }
 
-function collectDrop(connect) {
+function collectDrop (connect) {
   return {
-    connectDropTarget: connect.dropTarget(),
-  };
+    connectDropTarget: connect.dropTarget()
+  }
 }
 
-function collectDrag(connect, monitor) {
+function collectDrag (connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
-  };
+  }
 }
 
 class Flag extends Component {
-  render() {
+  render () {
     const {
+      id,
+      index,
       text,
+      dropped,
+      flagStyle,
       isDragging,
       connectDragSource,
       connectDropTarget
@@ -93,7 +110,14 @@ class Flag extends Component {
     const opacity = isDragging ? 0 : 1
 
     return connectDragSource(
-      connectDropTarget(<div style={{ ...style, opacity }}>{text}</div>)
+      connectDropTarget(
+        <div
+          style={flagStyle ? {...flagStyle, opacity} : { ...style, opacity }}
+          onClick={() => this.props.selectFlag(index, id, text, dropped)}
+        >
+          {text}{id}
+        </div>
+      )
     )
   }
 }

@@ -1,71 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Square from './Square'
 import Flag from './Flag'
 
+const flagStyle = {
+  border: '0.5px solid blue',
+  backgroundColor: 'red',
+  cursor: 'move',
+  height: '98%',
+  width: '96%'
+}
+
 class Grid extends Component {
-  constructor(props) {
-    super(props)
-    const squares = this.generateSquares()
-    const flags = this.generateFlags()
-    const droppedFlagCountries = []
-
-    this.state = { squares, flags, droppedFlagCountries }
-  }
-
-  generateSquares() {
-    let squares = []
-    for(let i = 0; i < 9; i++) {
-      squares.push({lastDroppedFlag: null})
-    }
-    return squares;
-  }
-
-  generateFlags() {
-    let countries = ['Canada', 'China', 'America', 'Japan', 'UK', 'Basil', 'Germany', 'France', 'Sweden', 'Korean']
-    return countries.map((flag) => {
-      return {flag}
-    })
-  }
-
-  renderSquare(i) {
-    const x = i % 3;
-    const y = Math.floor(i / 3);
-
-    const {flagPosition} = this.props
-
-    let flagX, flagY
-
-    if(flagPosition.length) {
-      [flagX, flagY] = flagPosition
-    }
-
-    const piece = ((flagX !== undefined) && (x === flagX && y === flagY)) ?
-      <Flag /> :
-      null;
+  renderSquare (i, flag) {
+    const piece = flag
+      ? <Flag
+        dropped
+        flagStyle={flagStyle}
+        index={i}
+        key={flag.id}
+        id={flag.id}
+        text={flag.text}
+        selectFlag={this.props.selectFlag}
+        moveFlag={this.props.moveFlag}
+      />
+      : null
 
     return (
       <div
         key={i}
         style={{width: '33.3333%', height: '33.3333%'}}
       >
-        <Square >
+        <Square onDrop={this.props.onDrop} index={i}>
           {piece}
         </Square>
       </div>
     );
   }
 
-  render() {
-    const squares = [];
+  render () {
+    const { droppedFlags } = this.props
+    const squares = []
+
     for (let i = 0; i < 9; i++) {
-      squares.push(this.renderSquare(i));
+      const flag = (i < droppedFlags.length) ? droppedFlags[i] : null
+      squares.push(this.renderSquare(i, flag))
     }
     return (
       <div style={{display: 'flex', flexWrap: 'wrap', height: '50%', width: '50%'}}>
         {squares}
       </div>
-    );
+    )
   }
 }
 
-export default Grid;
+export default Grid
