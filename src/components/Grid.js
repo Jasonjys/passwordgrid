@@ -6,8 +6,7 @@ const flagStyle = {
   border: '0.5px solid blue',
   backgroundColor: 'red',
   cursor: 'move',
-  height: '98%',
-  width: '97%'
+  height: '98%'
 }
 
 class Grid extends Component {
@@ -34,7 +33,7 @@ class Grid extends Component {
           {piece}
         </Square>
       </div>
-    );
+    )
   }
 
   render () {

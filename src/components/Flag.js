@@ -4,13 +4,13 @@ import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from './ItemTypes'
 
 const style = {
+  display: 'flex',
+  height: 60,
+  width: '15%',
   border: '1px solid blue',
-  padding: '0.5rem',
   margin: '.5rem',
   backgroundColor: 'red',
-  cursor: 'move',
-  width: '15%',
-  height: 60
+  cursor: 'move'
 }
 
 const flagSource = {
