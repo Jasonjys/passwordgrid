@@ -21,7 +21,7 @@ class FlagsContainer extends Component {
             key={flag.id}
             index={i}
             id={flag.id}
-            text={flag.text}
+            country={flag.country}
             moveFlag={this.props.moveFlag}
             selectFlag={this.props.selectFlag}
           />

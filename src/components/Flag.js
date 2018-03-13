@@ -2,14 +2,11 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from './ItemTypes'
+import CountryFlag from 'react-world-flags'
 
 const style = {
   display: 'flex',
-  height: 60,
-  width: '15%',
-  border: '1px solid blue',
   margin: '.5rem',
-  backgroundColor: 'red',
   cursor: 'move'
 }
 
@@ -100,7 +97,7 @@ class Flag extends Component {
     const {
       id,
       index,
-      text,
+      country,
       dropped,
       flagStyle,
       isDragging,
@@ -113,9 +110,12 @@ class Flag extends Component {
       connectDropTarget(
         <div
           style={flagStyle ? {...flagStyle, opacity} : { ...style, opacity }}
-          onClick={() => this.props.selectFlag(index, id, text, dropped)}
+          onClick={() => this.props.selectFlag(index, id, country, dropped)}
         >
-          {text}{id}
+          <CountryFlag
+            code={country}
+            height='100'
+          />
         </div>
       )
     )

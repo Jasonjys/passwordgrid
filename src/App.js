@@ -20,9 +20,9 @@ class App extends Component {
   }
 
   generateFlags () {
-    const countries = ['Canada', 'China', 'America', 'Japan', 'UK', 'Brazil', 'Germany', 'France', 'Sweden', 'Korean']
+    const countries = ['CAN', 'CHN', 'USA', 'JPN', 'GBR', 'BRA', 'DEU', 'FRA', 'SWE', 'KOR']
     return countries.map((flag, index) => {
-      return {id: index, text: flag}
+      return {id: index, country: flag}
     })
   }
 
@@ -36,7 +36,7 @@ class App extends Component {
       this.setState(
         update(this.state, {
           flags: {
-            $push: [{id: id, text: flag}]
+            $push: [{id: id, country: flag}]
           },
           droppedFlags: {
             $splice: [[index, 1, null]]
@@ -54,7 +54,7 @@ class App extends Component {
         ],
         droppedFlags: [
           ...droppedFlags.slice(0, nullIndex),
-          {id: id, text: flag},
+          {id: id, country: flag},
           ...droppedFlags.slice(nullIndex + 1, droppedFlags.length)
         ]
       })

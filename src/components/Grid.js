@@ -18,7 +18,7 @@ class Grid extends Component {
         index={i}
         key={flag.id}
         id={flag.id}
-        text={flag.text}
+        country={flag.country}
         selectFlag={this.props.selectFlag}
         moveFlag={this.props.moveFlag}
       />
