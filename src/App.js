@@ -66,6 +66,7 @@ class App extends Component {
     let dragFlag = sourceDropped ? droppedFlags[dragIndex] : flags[dragIndex]
 
     if (sourceDropped && !draggingIntoGrid) {
+      debugger
       this.setState(
         update(this.state, {
           droppedFlags: {
@@ -101,29 +102,22 @@ class App extends Component {
       this.setState({droppedFlags: newDroppedFlags})
     }
 
-    // drop lag to empty square
+    // drop flag to empty square
     if (!flag.dropped && !droppedFlags[index]) {
-      //debugger
-      const newflags = [
-        ...flags.slice(0, flag.index),
-        ...flags.slice(flag.index + 1, flag.length)
-      ]
+      const draggingFlag = flags.find((element) => {
+        return element.id === flag.id
+      })
 
-      const newDroppedFlags = droppedFlags.slice()
-      newDroppedFlags[flag.index] = null
-      newDroppedFlags[index] = {...droppedFlags[flag.index]}
-
-      debugger
       this.setState({
-        flags: [
-          ...flags.slice(0, flag.index),
-          ...flags.slice(flag.index + 1, flag.length)
-        ],
-        droppedFlags: [
-          ...droppedFlags.slice(0, index),
-          {...flags[flag.index]},
-          ...droppedFlags.slice(index + 1, droppedFlags.length)
-        ]
+        flags: flags.filter((item) => {
+          return item.id !== flag.id
+        }),
+        droppedFlags: droppedFlags.map((element, i) => {
+          if (i === index) {
+            return {...draggingFlag}
+          }
+          return element
+        })
       })
     }
   }

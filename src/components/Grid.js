@@ -7,7 +7,7 @@ const flagStyle = {
   backgroundColor: 'red',
   cursor: 'move',
   height: '98%',
-  width: '96%'
+  width: '97%'
 }
 
 class Grid extends Component {
@@ -41,10 +41,9 @@ class Grid extends Component {
     const { droppedFlags } = this.props
     const squares = []
 
-    for (let i = 0; i < 9; i++) {
-      const flag = (i < droppedFlags.length) ? droppedFlags[i] : null
-      squares.push(this.renderSquare(i, flag))
-    }
+    droppedFlags.forEach((droppedFlag, index) => {
+      squares.push(this.renderSquare(index, droppedFlag))
+    })
     return (
       <div style={{display: 'flex', flexWrap: 'wrap', height: '50%', width: '50%'}}>
         {squares}
