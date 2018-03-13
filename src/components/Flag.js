@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from './ItemTypes'
-import CountryFlag from 'react-world-flags'
+import ReactCountryFlag from 'react-country-flag'
 
 const style = {
-  display: 'flex',
+  height: 100,
+  width: '18%',
+  position: 'relative',
   margin: '.5rem',
   cursor: 'move'
 }
@@ -112,9 +114,10 @@ class Flag extends Component {
           style={flagStyle ? {...flagStyle, opacity} : { ...style, opacity }}
           onClick={() => this.props.selectFlag(index, id, country, dropped)}
         >
-          <CountryFlag
+          <ReactCountryFlag
             code={country}
-            height='100'
+            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
+            svg
           />
         </div>
       )

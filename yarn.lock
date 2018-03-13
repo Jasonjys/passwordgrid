@@ -1985,6 +1985,10 @@ destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
 
+detect-emoji-support@^0.1.4:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/detect-emoji-support/-/detect-emoji-support-0.1.5.tgz#6585c8a1889bd56188bdd9b9c2b9f808db368bf4"
+
 detect-indent@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-4.0.0.tgz#f76d064352cdf43a1cb6ce619c4ee3a9475de208"
@@ -5546,6 +5550,12 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-country-flag@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-country-flag/-/react-country-flag-0.2.0.tgz#e014e3e9a907f96674e921ac9aa55c6f1af14312"
+  dependencies:
+    detect-emoji-support "^0.1.4"
+
 react-dev-utils@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-5.0.0.tgz#425ac7c9c40c2603bc4f7ab8836c1406e96bb473"
@@ -5642,13 +5652,6 @@ react-scripts@1.1.1:
     whatwg-fetch "2.0.3"
   optionalDependencies:
     fsevents "^1.1.3"
-
-react-world-flags@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/react-world-flags/-/react-world-flags-0.0.3.tgz#cb5c834fca5b0957c4e5d4c2ea1f3916e47b6e0b"
-  dependencies:
-    svg-country-flags "^1.0.0"
-    world-countries "^1.8.1"
 
 react@^16.2.0:
   version "16.2.0"
@@ -6502,10 +6505,6 @@ supports-color@^5.2.0, supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-svg-country-flags@^1.0.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/svg-country-flags/-/svg-country-flags-1.2.1.tgz#a9d995bb66771304e45a4d51b325b55cdeed919e"
-
 svgo@^0.7.0:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-0.7.2.tgz#9f5772413952135c6fefbf40afe6a4faa88b4bb5"
@@ -7142,10 +7141,6 @@ worker-farm@^1.3.1:
   dependencies:
     errno "~0.1.7"
     xtend "~4.0.1"
-
-world-countries@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/world-countries/-/world-countries-1.8.1.tgz#14ba7d735d422d63de70deb6e35ec5e49341b209"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

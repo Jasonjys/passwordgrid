@@ -3,10 +3,9 @@ import Square from './Square'
 import Flag from './Flag'
 
 const flagStyle = {
-  border: '0.5px solid blue',
-  backgroundColor: 'red',
-  cursor: 'move',
-  height: '98%'
+  height: '100%',
+  width: '100%',
+  cursor: 'move'
 }
 
 class Grid extends Component {
@@ -44,7 +43,7 @@ class Grid extends Component {
       squares.push(this.renderSquare(index, droppedFlag))
     })
     return (
-      <div style={{display: 'flex', flexWrap: 'wrap', height: '50%', width: '50%'}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', height: '50%', width: '50%', margin: 'auto'}}>
         {squares}
       </div>
     )

@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import Flag from './Flag'
 
 const style = {
-  minHeight: '30%',
+  display: 'flex',
+  minHeight: '35%',
   width: '100%',
   flexDirection: 'row',
-  display: 'flex',
-  flexWrap: 'wrap'
+  flexWrap: 'wrap',
+  justifyContent: 'space-evenly'
 }
 
 class FlagsContainer extends Component {

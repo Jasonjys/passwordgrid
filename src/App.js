@@ -20,7 +20,9 @@ class App extends Component {
   }
 
   generateFlags () {
-    const countries = ['CAN', 'CHN', 'USA', 'JPN', 'GBR', 'BRA', 'DEU', 'FRA', 'SWE', 'KOR']
+    // const countries = ['CAN', 'CHN', 'USA', 'JPN', 'GBR', 'BRA', 'DEU', 'FRA', 'SWE', 'KOR']
+    // const countries = ['Canada', 'China', 'US', 'Japan', 'UK', 'Brazil', 'Germany', 'France', 'Sweden', 'Korean']
+    const countries = ['CA', 'CN', 'US', 'JP', 'GB', 'BR', 'DE', 'MQ', 'SE', 'KR']
     return countries.map((flag, index) => {
       return {id: index, country: flag}
     })
