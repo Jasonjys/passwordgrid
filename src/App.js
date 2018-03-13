@@ -66,7 +66,6 @@ class App extends Component {
     let dragFlag = sourceDropped ? droppedFlags[dragIndex] : flags[dragIndex]
 
     if (sourceDropped && !draggingIntoGrid) {
-      debugger
       this.setState(
         update(this.state, {
           droppedFlags: {
