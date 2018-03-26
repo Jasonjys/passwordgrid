@@ -1,3 +1,3 @@
 export default {
-  FLAG: 'flag'
+  ICON: 'icon'
 }

@@ -44,4 +44,4 @@ class Square extends Component {
   }
 }
 
-export default DropTarget(ItemTypes.FLAG, squareTarget, collect)(Square)
+export default DropTarget(ItemTypes.ICON, squareTarget, collect)(Square)

@@ -4,74 +4,84 @@ import { DragDropContext } from 'react-dnd'
 import update from 'immutability-helper'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Grid from './components/Grid'
-import FlagsContainer from './components/FlagsContainer'
+import IconsContainer from './components/IconsContainer'
+import data from './components/Data'
 
 class App extends Component {
   constructor (props) {
     super(props)
-    this.moveFlag = this.moveFlag.bind(this)
-    this.selectFlag = this.selectFlag.bind(this)
-    this.dropFlag = this.dropFlag.bind(this)
+    this.moveIcon = this.moveIcon.bind(this)
+    this.selectIcon = this.selectIcon.bind(this)
+    this.dropIcon = this.dropIcon.bind(this)
 
-    const flags = this.generateFlags()
-    const droppedFlags = new Array(9).fill(null)
+    const icons = this.generateIcons()
+    const droppedIcons = new Array(4).fill(null)
+    const actions = []
 
-    this.state = { flags, droppedFlags }
+    this.state = {actions, droppedIcons, ...icons}
   }
 
-  generateFlags () {
-    // const countries = ['CAN', 'CHN', 'USA', 'JPN', 'GBR', 'BRA', 'DEU', 'FRA', 'SWE', 'KOR']
-    // const countries = ['Canada', 'China', 'US', 'Japan', 'UK', 'Brazil', 'Germany', 'France', 'Sweden', 'Korean']
-    const countries = ['CA', 'CN', 'US', 'JP', 'GB', 'BR', 'DE', 'MQ', 'SE', 'KR']
-    return countries.map((flag, index) => {
-      return {id: index, country: flag}
-    })
+  generateIcons () {
+    return {
+      country: [...data.slice(0, 10)],
+      landmark: [...data.slice(10, 20)],
+      food: [...data.slice(20, 30)],
+      animal: [...data.slice(30, 40)]
+    }
   }
 
-  selectFlag (index, id, flag, dropped) {
-    const {flags, droppedFlags} = this.state
-    if (flags.length === 1 && !dropped) {
+  selectIcon (selectedicon) {
+    const {index, id, icon, category, dropped} = selectedicon
+    const {actions, droppedIcons} = this.state
+    if (!droppedIcons.includes(null) && !dropped) {
       return
     }
 
     if (dropped) {
-      this.setState(
-        update(this.state, {
-          flags: {
-            $push: [{id: id, country: flag}]
-          },
-          droppedFlags: {
-            $splice: [[index, 1, null]]
-          }
-        })
-      )
+      const oldIconStatus = {...actions[actions.length - 1]}
+
+      this.setState({
+        actions: [...actions.slice(0, actions.length - 1)],
+        [category]: [
+          ...this.state[category].slice(0, oldIconStatus.index),
+          {id, icon, category},
+          ...this.state[category].slice(oldIconStatus.index, this.state[category].length)
+        ],
+        droppedIcons: [
+          ...droppedIcons.slice(0, index),
+          null,
+          ...droppedIcons.slice(index + 1, droppedIcons.length)
+        ]
+      })
     } else {
-      const nullIndex = droppedFlags.findIndex((item) => {
+      const nullIndex = droppedIcons.findIndex((item) => {
         return !item
       })
+
       this.setState({
-        flags: [
-          ...flags.slice(0, index),
-          ...flags.slice(index + 1, flags.length)
+        [category]: [
+          ...this.state[category].slice(0, index),
+          ...this.state[category].slice(index + 1, this.state[category].length)
         ],
-        droppedFlags: [
-          ...droppedFlags.slice(0, nullIndex),
-          {id: id, country: flag},
-          ...droppedFlags.slice(nullIndex + 1, droppedFlags.length)
-        ]
+        droppedIcons: [
+          ...droppedIcons.slice(0, nullIndex),
+          {id, icon, category},
+          ...droppedIcons.slice(nullIndex + 1, droppedIcons.length)
+        ],
+        actions: [...actions, selectedicon]
       })
     }
   }
 
-  moveFlag (dragIndex, hoverIndex, sourceDropped, draggingIntoGrid) {
-    const { flags, droppedFlags } = this.state
-    let dragFlag = sourceDropped ? droppedFlags[dragIndex] : flags[dragIndex]
+  moveIcon (category, dragIndex, hoverIndex, sourceDropped, draggingIntoGrid) {
+    const { droppedIcons } = this.state
+    let dragIcon = sourceDropped ? droppedIcons[dragIndex] : this.state[category][dragIndex]
 
     if (sourceDropped && !draggingIntoGrid) {
       this.setState(
         update(this.state, {
-          droppedFlags: {
-            $splice: [[dragIndex, 1], [hoverIndex, 0, dragFlag]]
+          droppedIcons: {
+            $splice: [[dragIndex, 1], [hoverIndex, 0, dragIcon]]
           }
         })
       )
@@ -80,42 +90,43 @@ class App extends Component {
     if (!sourceDropped && !draggingIntoGrid) {
       this.setState(
         update(this.state, {
-          flags: {
-            $splice: [[dragIndex, 1], [hoverIndex, 0, dragFlag]]
+          [category]: {
+            $splice: [[dragIndex, 1], [hoverIndex, 0, dragIcon]]
           }
         })
       )
     }
   }
 
-  dropFlag (index, flag) {
-    const { droppedFlags, flags } = this.state
+  dropIcon (index, icon) {
+    const {id, dropped, category} = icon
+    const { actions, droppedIcons } = this.state
 
-    if (flag.dropped && droppedFlags[index]) {
+    if (dropped && droppedIcons[index]) {
       return
     }
 
-    // move flag to empty square(within grid)
-    if (flag.dropped && !droppedFlags[index]) {
-      const newDroppedFlags = droppedFlags.slice()
-      newDroppedFlags[flag.index] = null
-      newDroppedFlags[index] = {...droppedFlags[flag.index]}
-      this.setState({droppedFlags: newDroppedFlags})
+    // move icon to empty square(within grid)
+    if (dropped && !droppedIcons[index]) {
+      const newDroppedIcons = droppedIcons.slice()
+      newDroppedIcons[icon.index] = null
+      newDroppedIcons[index] = {...droppedIcons[icon.index]}
+      this.setState({droppedIcons: newDroppedIcons})
     }
 
-    // drop flag to empty square
-    if (!flag.dropped && !droppedFlags[index]) {
-      const draggingFlag = flags.find((element) => {
-        return element.id === flag.id
+    // drop icon to empty square
+    if (!dropped && !droppedIcons[index]) {
+      const draggingIcon = this.state[category].find((element) => {
+        return element.id === id
       })
-
       this.setState({
-        flags: flags.filter((item) => {
-          return item.id !== flag.id
+        actions: [...actions, icon],
+        [category]: this.state[category].filter((item) => {
+          return item.id !== id
         }),
-        droppedFlags: droppedFlags.map((element, i) => {
+        droppedIcons: droppedIcons.map((element, i) => {
           if (i === index) {
-            return {...draggingFlag}
+            return {...draggingIcon}
           }
           return element
         })
@@ -124,19 +135,38 @@ class App extends Component {
   }
 
   render () {
-    const { flags, droppedFlags } = this.state
+    const { country, landmark, food, animal, droppedIcons } = this.state
     return (
       <div style={{height: '100%', width: '100%'}}>
-        <FlagsContainer
-          flags={flags}
-          moveFlag={this.moveFlag}
-          selectFlag={this.selectFlag}
+        <IconsContainer
+          icons={country}
+          category={'country'}
+          moveIcon={this.moveIcon}
+          selectIcon={this.selectIcon}
+        />
+        <IconsContainer
+          icons={landmark}
+          category={'landmark'}
+          moveIcon={this.moveIcon}
+          selectIcon={this.selectIcon}
+        />
+        <IconsContainer
+          icons={food}
+          category={'food'}
+          moveIcon={this.moveIcon}
+          selectIcon={this.selectIcon}
+        />
+        <IconsContainer
+          icons={animal}
+          category={'animal'}
+          moveIcon={this.moveIcon}
+          selectIcon={this.selectIcon}
         />
         <Grid
-          droppedFlags={droppedFlags}
-          moveFlag={this.moveFlag}
-          selectFlag={this.selectFlag}
-          onDrop={this.dropFlag}
+          droppedIcons={droppedIcons}
+          moveIcon={this.moveIcon}
+          selectIcon={this.selectIcon}
+          onDrop={this.dropIcon}
         />
       </div>
     )

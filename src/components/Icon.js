@@ -2,36 +2,37 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from './ItemTypes'
-import ReactCountryFlag from 'react-country-flag'
+import components from './svgs'
 
 const style = {
-  height: 100,
-  width: '18%',
-  position: 'relative',
-  margin: '.5rem',
-  cursor: 'move'
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center'
 }
 
-const flagSource = {
-  beginDrag (props) {
+const IconSource = {
+  beginDrag ({id, index, icon, category, dropped}) {
     return {
-      id: props.id,
-      index: props.index,
-      dropped: !!props.dropped
+      id: id,
+      index: index,
+      icon: icon,
+      category: category,
+      dropped: !!dropped
     }
   }
 }
 
-const flagTarget = {
+const iconTarget = {
   hover (props, monitor, component) {
-    const draggingDroppedFlag = monitor.getItem().dropped
+    const draggingDroppedIcon = monitor.getItem().dropped
     const dragIndex = monitor.getItem().index
-    console.log('draggingDroppedFlag: ', draggingDroppedFlag)
+    console.log('draggingDropIcon: ', draggingDroppedIcon)
 
     const sourceDropped = props.dropped
     console.log('targetDropped: ', sourceDropped)
     const hoverIndex = props.index
-    const draggingIntoGrid = !draggingDroppedFlag && sourceDropped
+    const draggingIntoGrid = !draggingDroppedIcon && sourceDropped
 
     console.log('draggingIntoGrid: ', draggingIntoGrid)
     // Don't replace items with themselves
@@ -71,7 +72,7 @@ const flagTarget = {
     console.log('dragIndex: ', dragIndex)
     console.log('hoverIndex: ', hoverIndex)
     // Time to actually perform the action
-    props.moveFlag(dragIndex, hoverIndex, sourceDropped, draggingIntoGrid)
+    props.moveIcon(props.category, dragIndex, hoverIndex, sourceDropped, draggingIntoGrid)
 
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
@@ -81,51 +82,51 @@ const flagTarget = {
   }
 }
 
-function collectDrop (connect) {
+const collectDrop = (connect) => {
   return {
     connectDropTarget: connect.dropTarget()
   }
 }
 
-function collectDrag (connect, monitor) {
+const collectDrag = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   }
 }
 
-class Flag extends Component {
+class Icon extends Component {
   render () {
     const {
       id,
       index,
-      country,
+      icon,
+      height,
+      width,
       dropped,
-      flagStyle,
+      category,
       isDragging,
       connectDragSource,
       connectDropTarget
     } = this.props
+    const SpecificIcon = components[icon]
     const opacity = isDragging ? 0 : 1
 
     return connectDragSource(
       connectDropTarget(
         <div
-          style={flagStyle ? {...flagStyle, opacity} : { ...style, opacity }}
-          onClick={() => this.props.selectFlag(index, id, country, dropped)}
+          style={{...style, opacity, height: '100%'}}
+          onClick={() => this.props.selectIcon({index, id, icon, category, dropped})}
         >
-          <ReactCountryFlag
-            code={country}
-            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
-            svg
-          />
+          <SpecificIcon style={{cursor: 'move'}} height={height} width={width} />
+          <div style={{padding: 5, textAlign: 'center', fontSize: 12}}>{icon}</div>
         </div>
       )
     )
   }
 }
 
-const dropTargetHOC = DropTarget(ItemTypes.FLAG, flagTarget, collectDrop)
-const dragSourceHOC = DragSource(ItemTypes.FLAG, flagSource, collectDrag)
+const dropTargetHOC = DropTarget(ItemTypes.ICON, iconTarget, collectDrop)
+const dragSourceHOC = DragSource(ItemTypes.ICON, IconSource, collectDrag)
 
-export default dropTargetHOC(dragSourceHOC(Flag))
+export default dropTargetHOC(dragSourceHOC(Icon))

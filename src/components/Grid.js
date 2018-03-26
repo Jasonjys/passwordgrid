@@ -1,32 +1,28 @@
 import React, { Component } from 'react'
 import Square from './Square'
-import Flag from './Flag'
-
-const flagStyle = {
-  height: '100%',
-  width: '100%',
-  cursor: 'move'
-}
+import Icon from './Icon'
 
 class Grid extends Component {
-  renderSquare (i, flag) {
-    const piece = flag
-      ? <Flag
+  renderSquare (i, icon) {
+    const piece = icon
+      ? <Icon
         dropped
-        flagStyle={flagStyle}
         index={i}
-        key={flag.id}
-        id={flag.id}
-        country={flag.country}
-        selectFlag={this.props.selectFlag}
-        moveFlag={this.props.moveFlag}
-      />
+        key={icon.id}
+        id={icon.id}
+        icon={icon.icon}
+        height={'70%'}
+        width={'70%'}
+        category={icon.category}
+        moveIcon={this.props.moveIcon}
+        selectIcon={this.props.selectIcon}
+        />
       : null
 
     return (
       <div
         key={i}
-        style={{width: '33.3333%', height: '33.3333%'}}
+        style={{width: '50%', height: '50%'}}
       >
         <Square onDrop={this.props.onDrop} index={i}>
           {piece}
@@ -36,14 +32,14 @@ class Grid extends Component {
   }
 
   render () {
-    const { droppedFlags } = this.props
+    const { droppedIcons } = this.props
     const squares = []
 
-    droppedFlags.forEach((droppedFlag, index) => {
-      squares.push(this.renderSquare(index, droppedFlag))
+    droppedIcons.forEach((droppedIcon, index) => {
+      squares.push(this.renderSquare(index, droppedIcon))
     })
     return (
-      <div style={{display: 'flex', flexWrap: 'wrap', height: '50%', width: '50%', margin: 'auto'}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', height: '30%', width: '28%', margin: 'auto'}}>
         {squares}
       </div>
     )
