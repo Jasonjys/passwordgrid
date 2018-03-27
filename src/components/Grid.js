@@ -2,6 +2,14 @@ import React, { Component } from 'react'
 import Square from './Square'
 import Icon from './Icon'
 
+const defaultStyle = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  height: 250,
+  width: 250,
+  margin: 'auto'
+}
+
 class Grid extends Component {
   renderSquare (i, icon) {
     const piece = icon
@@ -32,15 +40,18 @@ class Grid extends Component {
   }
 
   render () {
-    const { droppedIcons } = this.props
+    const { droppedIcons, passwordType, style } = this.props
     const squares = []
 
     droppedIcons.forEach((droppedIcon, index) => {
       squares.push(this.renderSquare(index, droppedIcon))
     })
     return (
-      <div style={{display: 'flex', flexWrap: 'wrap', height: '30%', width: '28%', margin: 'auto'}}>
-        {squares}
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '25%'}}>
+        {passwordType ? <div style={{padding: 10}}>{passwordType}</div> : null}
+        <div style={style || defaultStyle}>
+          {squares}
+        </div>
       </div>
     )
   }

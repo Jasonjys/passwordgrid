@@ -4,8 +4,10 @@ import { DragDropContext } from 'react-dnd'
 import update from 'immutability-helper'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Grid from './components/Grid'
+import GivenPassword from './components/GivenPassword'
 import IconsContainer from './components/IconsContainer'
 import data from './components/Data'
+import { emailPassword, bankPassword, shoppingPassword } from './components/Passwords'
 
 class App extends Component {
   constructor (props) {
@@ -18,7 +20,14 @@ class App extends Component {
     const droppedIcons = new Array(4).fill(null)
     const actions = []
 
-    this.state = {actions, droppedIcons, ...icons}
+    this.state = {
+      actions,
+      droppedIcons,
+      emailPassword,
+      bankPassword,
+      shoppingPassword,
+      ...icons
+    }
   }
 
   generateIcons () {
@@ -138,6 +147,20 @@ class App extends Component {
     const { country, landmark, food, animal, droppedIcons } = this.state
     return (
       <div style={{height: '100%', width: '100%'}}>
+        <div style={{display: 'flex'}}>
+          <GivenPassword
+            passwordType={'emailPassword'}
+            password={this.state.emailPassword}
+          />
+          <GivenPassword
+            passwordType={'bankPassword'}
+            password={this.state.bankPassword}
+          />
+          <GivenPassword
+            passwordType={'shoppingPassword'}
+            password={this.state.shoppingPassword}
+          />
+        </div>
         <IconsContainer
           icons={country}
           category={'country'}

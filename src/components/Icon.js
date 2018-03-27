@@ -8,7 +8,8 @@ const style = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  padding: 5
 }
 
 const IconSource = {
@@ -72,8 +73,9 @@ const iconTarget = {
     console.log('dragIndex: ', dragIndex)
     console.log('hoverIndex: ', hoverIndex)
     // Time to actually perform the action
-    props.moveIcon(props.category, dragIndex, hoverIndex, sourceDropped, draggingIntoGrid)
-
+    if (props.moveIcon) {
+      props.moveIcon(props.category, dragIndex, hoverIndex, sourceDropped, draggingIntoGrid)
+    }
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
     // but it's good here for the sake of performance
@@ -116,10 +118,14 @@ class Icon extends Component {
       connectDropTarget(
         <div
           style={{...style, opacity, height: '100%'}}
-          onClick={() => this.props.selectIcon({index, id, icon, category, dropped})}
+          onClick={() => {
+            if (this.props.selectIcon) {
+              this.props.selectIcon({index, id, icon, category, dropped})
+            }
+          }}
         >
           <SpecificIcon style={{cursor: 'move'}} height={height} width={width} />
-          <div style={{padding: 5, textAlign: 'center', fontSize: 12}}>{icon}</div>
+          <div style={{padding: 5, textAlign: 'center', fontSize: 11}}>{icon}</div>
         </div>
       )
     )

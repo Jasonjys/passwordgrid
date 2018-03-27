@@ -7,10 +7,10 @@ class IconsContainer extends Component {
     const { icons, category } = this.props
     return (
       <div style={{minHeight: '16%'}}>
-        <div style={{marginLeft: 15, marginTop: 10}}>
+        <div style={{textAlign: 'center', marginLeft: 15, marginTop: 10}}>
           {pluralize.plural(category)}
         </div>
-        <div style={{display: 'flex', width: '100%', justifyContent: 'space-around', flexWrap: 'wrap'}}>
+        <div style={{display: 'flex', width: '100%', justifyContent: 'center', flexWrap: 'wrap'}}>
           {icons.map((icon, i) => (
             <Icon
               dropped={false}
@@ -18,8 +18,8 @@ class IconsContainer extends Component {
               index={i}
               id={icon.id}
               icon={icon.icon}
-              height={80}
-              width={80}
+              height={60}
+              width={60}
               category={icon.category}
               moveIcon={this.props.moveIcon}
               selectIcon={this.props.selectIcon}

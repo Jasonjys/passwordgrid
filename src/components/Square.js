@@ -4,7 +4,9 @@ import { DropTarget } from 'react-dnd'
 
 const squareTarget = {
   drop (props, monitor) {
-    props.onDrop(props.index, monitor.getItem())
+    if (props.onDrop) {
+      props.onDrop(props.index, monitor.getItem())
+    }
   }
 }
 
