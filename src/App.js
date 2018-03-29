@@ -19,11 +19,18 @@ class App extends Component {
       emailPassword
     }
   }
+  chooseUniquePassword(elm,array,length) {
+    while(array.includes(elm)||!elm){
+      elm = data[Math.floor(Math.random() * data.length)]
+    }
+      return elm
+  }
 
   generatePassword (length) {
     const random = []
+    let randomIcon
     for (let i = 0; i < length; i++) {
-      random.push(data[Math.floor(Math.random() * data.length)])
+      random.push(this.chooseUniquePassword(randomIcon,random,length))
     }
     return random
   }
