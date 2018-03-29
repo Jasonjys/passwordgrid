@@ -25,6 +25,12 @@ class Password extends Component {
     }
   }
 
+  componentDidUpdate({type}){
+    if (type !== this.props.type) {
+      this.clearGrid()
+    }
+  }
+
   generateIcons () {
     return {
       country: [...data.slice(0, 10)],
@@ -199,6 +205,7 @@ class Password extends Component {
           selectIcon={this.selectIcon}
         />
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <div>Please practice your {this.props.type} password here:</div>
           <Grid
             droppedIcons={droppedIcons}
             moveIcon={this.moveIcon}

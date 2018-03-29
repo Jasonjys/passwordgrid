@@ -10,9 +10,15 @@ class App extends Component {
     super(props)
 
     const emailPassword = this.generatePassword(4)
-
+    const bankPassword = this.generatePassword(4)
+    const shoppingPassword = this.generatePassword(4)
     this.state = {
-      emailPassword
+      index: 0,
+      passwordArray: [
+        {pw: emailPassword, type: 'email'},
+        {pw: bankPassword, type: 'bank'},
+        {pw: shoppingPassword, type: 'shopping'}
+      ]
     }
   }
   chooseUniquePassword(elm,array,length) {
@@ -31,26 +37,40 @@ class App extends Component {
     return random
   }
 
-  render () {
-    const { emailPassword } = this.state
+  handlePreviousButton = (currentType) =>{
+   this.setState({index: --this.state.index})
+  }
 
+  handleNextButton = (currentType) =>{
+    this.setState({index: ++this.state.index})
+   }
+
+  render () {
+    const {index, passwordArray} = this.state
     return (
+      
       <div style={{height: '100%', width: '100%'}}>
-        <GivenPassword
-          passwordType={'emailPassword'}
-          password={emailPassword}
-        />
-        {/* <GivenPassword
-            passwordType={'bankPassword'}
-            password={bankPassword}
-          />
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <GivenPassword
-            passwordType={'shoppingPassword'}
-            password={shoppingPassword}
-          /> */}
+            passwordType={passwordArray[index].type}
+            password={passwordArray[index].pw}
+          />
+          <div style={{flexDirection: 'row'}}>
+            <button
+              disabled={passwordArray[index].type==='email'}
+              onClick={() => this.handlePreviousButton(passwordArray[index].type)}>
+                Previous password
+            </button>
+            <button
+              disabled={passwordArray[index].type==='shopping'}
+              onClick={() => this.handleNextButton(passwordArray[index].type)}>
+               Next password
+            </button>
+          </div>
+        </div>
         <Password
-          type={'email'}
-          password={emailPassword}
+          type={passwordArray[index].type}
+          password={passwordArray[index].pw}
         />
       </div>
     )
