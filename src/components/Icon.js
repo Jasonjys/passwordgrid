@@ -125,7 +125,7 @@ class Icon extends Component {
     return connectDragSource(
       connectDropTarget(
         <div
-          style={{...style, opacity, height: '100%'}}
+          style={{...style, opacity}}
           onClick={() => {
             if (this.props.selectIcon) {
               this.props.selectIcon({index, id, icon, category, dropped})

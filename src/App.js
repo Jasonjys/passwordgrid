@@ -4,11 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import GivenPassword from './components/GivenPassword'
 import Password from './components/Password'
 import data from './components/Data'
-// import { emailPassword, bankPassword, shoppingPassword } from './components/Passwords'
 
-const random = []
-
-console.log(random)
 class App extends Component {
   constructor (props) {
     super(props)
@@ -44,7 +40,7 @@ class App extends Component {
           passwordType={'emailPassword'}
           password={emailPassword}
         />
-          {/* <GivenPassword
+        {/* <GivenPassword
             passwordType={'bankPassword'}
             password={bankPassword}
           />

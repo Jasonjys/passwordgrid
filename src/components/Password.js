@@ -198,14 +198,16 @@ class Password extends Component {
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
-        <Grid
-          droppedIcons={droppedIcons}
-          moveIcon={this.moveIcon}
-          selectIcon={this.selectIcon}
-          onDrop={this.dropIcon}
-        />
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+          <Grid
+            droppedIcons={droppedIcons}
+            moveIcon={this.moveIcon}
+            selectIcon={this.selectIcon}
+            onDrop={this.dropIcon}
+          />
+          <div style={{fontSize: 12, padding: 5}}>{message}</div>
+        </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          {message ? <div style={{marginTop: 10}}>{message}</div> : null}
           <div style={{display: 'flex', width: '100%', justifyContent: 'center', margin: 10}}>
             <button
               style={{width: 100}}
