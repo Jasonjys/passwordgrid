@@ -9,6 +9,11 @@ class App extends Component {
   constructor (props) {
     super(props)
 
+    this.chooseUniquePassword = this.chooseUniquePassword.bind(this)
+    this.generatePassword = this.generatePassword.bind(this)
+    this.handlePreviousButton = this.handlePreviousButton.bind(this)
+    this.handleGenerateNew = this.handleGenerateNew.bind(this)
+
     const emailPassword = this.generatePassword(4)
     const bankPassword = this.generatePassword(4)
     const shoppingPassword = this.generatePassword(4)
@@ -21,31 +26,32 @@ class App extends Component {
       ]
     }
   }
-  chooseUniquePassword(elm,array,length) {
-    while(array.includes(elm)||!elm){
+
+  chooseUniquePassword (elm, array, length) {
+    while (array.includes(elm) || !elm) {
       elm = data[Math.floor(Math.random() * data.length)]
     }
-      return elm
+    return elm
   }
 
   generatePassword (length) {
     const random = []
     let randomIcon
     for (let i = 0; i < length; i++) {
-      random.push(this.chooseUniquePassword(randomIcon,random,length))
+      random.push(this.chooseUniquePassword(randomIcon, random, length))
     }
     return random
   }
 
-  handlePreviousButton = () =>{
-   this.setState({index: --this.state.index})
+  handlePreviousButton () {
+    this.setState({index: --this.state.index})
   }
 
-  handleNextButton = () =>{
+  handleNextButton () {
     this.setState({index: ++this.state.index})
-   }
+  }
 
-  handleGenerateNew = (index, type) =>{
+  handleGenerateNew (index, type) {
     const {passwordArray} = this.state
     this.setState({
       passwordArray: [
@@ -60,7 +66,6 @@ class App extends Component {
     const {index, passwordArray} = this.state
     const {type, pw} = passwordArray[index]
     return (
-      
       <div style={{height: '100%', width: '100%'}}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <GivenPassword
@@ -69,7 +74,7 @@ class App extends Component {
           />
           <div style={{flexDirection: 'row'}}>
             <button
-              disabled={type==='email'}
+              disabled={type === 'email'}
               onClick={() => this.handlePreviousButton()}>
                 Previous password
             </button>
@@ -78,7 +83,7 @@ class App extends Component {
                 Generate new password
             </button>
             <button
-              disabled={type==='shopping'}
+              disabled={type === 'shopping'}
               onClick={() => this.handleNextButton(type)}>
                Next password
             </button>
