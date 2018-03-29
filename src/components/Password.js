@@ -208,7 +208,7 @@ class Password extends Component {
           <div style={{fontSize: 12, padding: 5}}>{message}</div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <div style={{display: 'flex', width: '100%', justifyContent: 'center', margin: 10}}>
+          <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
             <button
               style={{width: 100}}
               onClick={() => this.comparePassword(this.props.password)}
