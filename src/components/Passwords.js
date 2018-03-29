@@ -10,9 +10,9 @@ export const emailPassword = [
     category: 'animal'
   },
   {
-    id: '9',
-    icon: 'Canada',
-    category: 'country'
+    id: '22',
+    icon: 'Cake',
+    category: 'food'
   },
   {
     id: '24',

@@ -8,8 +8,16 @@ const style = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
   padding: 5
+}
+
+const textStyle = {
+  width: '100%',
+  textAlign: 'center',
+  flexWrap: 'wrap',
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  fontSize: 10
 }
 
 const IconSource = {
@@ -125,7 +133,7 @@ class Icon extends Component {
           }}
         >
           <SpecificIcon style={{cursor: 'move'}} height={height} width={width} />
-          <div style={{padding: 5, textAlign: 'center', fontSize: 11}}>{icon}</div>
+          <div style={textStyle}>{icon}</div>
         </div>
       )
     )

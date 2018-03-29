@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "immutability-helper": "^2.6.6",
+    "lodash": "^4.17.5",
     "pluralize": "^7.0.0",
     "react": "^16.2.0",
     "react-dnd": "^2.5.4",

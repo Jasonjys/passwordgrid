@@ -5,8 +5,8 @@ import Icon from './Icon'
 const defaultStyle = {
   display: 'flex',
   flexWrap: 'wrap',
-  height: 250,
-  width: 250,
+  height: 200,
+  width: 200,
   margin: 'auto'
 }
 

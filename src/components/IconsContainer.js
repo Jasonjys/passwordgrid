@@ -6,7 +6,7 @@ class IconsContainer extends Component {
   render () {
     const { icons, category } = this.props
     return (
-      <div style={{minHeight: '16%'}}>
+      <div>
         <div style={{textAlign: 'center', marginLeft: 15, marginTop: 10}}>
           {pluralize.plural(category)}
         </div>
