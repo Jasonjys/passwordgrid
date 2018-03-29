@@ -48,7 +48,7 @@ class Grid extends Component {
     })
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: '15%'}}>
-        {passwordType ? <div style={{padding: 5}}>{passwordType}</div> : null}
+        {passwordType ? <div style={{padding: 5}}>{`${passwordType} password`}</div> : null}
         <div style={style || defaultStyle}>
           {squares}
         </div>

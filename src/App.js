@@ -37,40 +37,56 @@ class App extends Component {
     return random
   }
 
-  handlePreviousButton = (currentType) =>{
+  handlePreviousButton = () =>{
    this.setState({index: --this.state.index})
   }
 
-  handleNextButton = (currentType) =>{
+  handleNextButton = () =>{
     this.setState({index: ++this.state.index})
    }
 
+  handleGenerateNew = (index, type) =>{
+    const {passwordArray} = this.state
+    this.setState({
+      passwordArray: [
+        ...passwordArray.slice(0, index),
+        {pw: this.generatePassword(4), type},
+        ...passwordArray.slice(index + 1, passwordArray.length)
+      ]
+    })
+  }
+
   render () {
     const {index, passwordArray} = this.state
+    const {type, pw} = passwordArray[index]
     return (
       
       <div style={{height: '100%', width: '100%'}}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <GivenPassword
-            passwordType={passwordArray[index].type}
-            password={passwordArray[index].pw}
+            passwordType={type}
+            password={pw}
           />
           <div style={{flexDirection: 'row'}}>
             <button
-              disabled={passwordArray[index].type==='email'}
-              onClick={() => this.handlePreviousButton(passwordArray[index].type)}>
+              disabled={type==='email'}
+              onClick={() => this.handlePreviousButton()}>
                 Previous password
             </button>
             <button
-              disabled={passwordArray[index].type==='shopping'}
-              onClick={() => this.handleNextButton(passwordArray[index].type)}>
+              onClick={() => this.handleGenerateNew(index, type)}>
+                Generate new password
+            </button>
+            <button
+              disabled={type==='shopping'}
+              onClick={() => this.handleNextButton(type)}>
                Next password
             </button>
           </div>
         </div>
         <Password
-          type={passwordArray[index].type}
-          password={passwordArray[index].pw}
+          type={type}
+          password={pw}
         />
       </div>
     )
