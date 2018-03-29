@@ -4,7 +4,7 @@ import Grid from './Grid'
 const passwordGridtStyle = {
   display: 'flex',
   flexWrap: 'wrap',
-  width: 180
+  width: '15%'
 }
 
 class GivenPassword extends Component {

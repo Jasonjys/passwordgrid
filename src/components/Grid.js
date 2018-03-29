@@ -5,8 +5,8 @@ import Icon from './Icon'
 const defaultStyle = {
   display: 'flex',
   flexWrap: 'wrap',
-  height: 200,
-  width: 200,
+  height: 180,
+  width: 180,
   margin: 'auto'
 }
 
@@ -47,7 +47,7 @@ class Grid extends Component {
       squares.push(this.renderSquare(index, droppedIcon))
     })
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '20%'}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '15%', marginTop: 8}}>
         {passwordType ? <div style={{padding: 5}}>{passwordType}</div> : null}
         <div style={style || defaultStyle}>
           {squares}
