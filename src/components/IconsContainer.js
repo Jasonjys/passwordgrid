@@ -7,10 +7,13 @@ class IconsContainer extends Component {
     const { icons, category } = this.props
     return (
       <div>
-        <div style={{textAlign: 'center', marginTop: 10}}>
+        {/* <div style={{textAlign: 'center', marginTop: 5}}>
           {pluralize.plural(category)}
-        </div>
-        <div style={{display: 'flex', width: '100%', justifyContent: 'center', flexWrap: 'wrap'}}>
+        </div> */}
+        <div style={{display: 'flex', width: '100%', marginLeft: '20%', flexWrap: 'wrap'}}>
+          <div style={{display: 'flex', width: 90, flexDirection: 'column', justifyContent: 'center', paddingRight: 10}}>
+            {`${pluralize.plural(category)}:`}
+          </div>
           {icons.map((icon, i) => (
             <Icon
               dropped={false}
