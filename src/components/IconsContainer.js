@@ -7,7 +7,7 @@ class IconsContainer extends Component {
     const { icons, category } = this.props
     return (
       <div>
-        <div style={{textAlign: 'center', marginLeft: 15, marginTop: 10}}>
+        <div style={{textAlign: 'center', marginTop: 10}}>
           {pluralize.plural(category)}
         </div>
         <div style={{display: 'flex', width: '100%', justifyContent: 'center', flexWrap: 'wrap'}}>

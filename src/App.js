@@ -9,11 +9,10 @@ class App extends Component {
   render () {
     return (
       <div style={{height: '100%', width: '100%'}}>
-        <div style={{display: 'flex', height: '10%'}}>
-          <GivenPassword
-            passwordType={'emailPassword'}
-            password={emailPassword}
-          />
+        <GivenPassword
+          passwordType={'emailPassword'}
+          password={emailPassword}
+        />
           {/* <GivenPassword
             passwordType={'bankPassword'}
             password={bankPassword}
@@ -22,10 +21,9 @@ class App extends Component {
             passwordType={'shoppingPassword'}
             password={shoppingPassword}
           /> */}
-        </div>
         <Password
-          password={emailPassword}
           type={'email'}
+          password={emailPassword}
         />
       </div>
     )

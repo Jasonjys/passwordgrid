@@ -173,7 +173,7 @@ class Password extends Component {
     const { country, landmark, food, animal, droppedIcons, message } = this.state
 
     return (
-      <div style={{height: '100%', width: '100%'}}>
+      <div style={{maxHeight: '80%', width: '100%'}}>
         <IconsContainer
           icons={country}
           category={'country'}

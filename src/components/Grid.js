@@ -47,8 +47,8 @@ class Grid extends Component {
       squares.push(this.renderSquare(index, droppedIcon))
     })
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '25%'}}>
-        {passwordType ? <div style={{padding: 10}}>{passwordType}</div> : null}
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '20%'}}>
+        {passwordType ? <div style={{padding: 5}}>{passwordType}</div> : null}
         <div style={style || defaultStyle}>
           {squares}
         </div>
