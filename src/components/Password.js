@@ -185,6 +185,8 @@ class Password extends Component {
 
   comparePassword (password) {
     const { droppedIcons } = this.state
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
 
     let identical = true
     droppedIcons.forEach((icon, i) => {
@@ -193,7 +195,15 @@ class Password extends Component {
       }
     })
 
-    if (password.length === droppedIcons.length && identical) {
+    const correct = password.length === droppedIcons.length && identical
+
+    firestore.collection(user).doc(type).collection('actions').add({
+      actionCnt: ++actionCnt,
+      time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      action: `submit ${correct ? 'correct' : 'wrong'} password`
+    })
+
+    if (correct) {
       this.setState({message: 'Success'})
     } else {
       this.setState({message: 'Wrong Password'})
