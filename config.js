@@ -1,3 +1,5 @@
+import firebase from 'firebase'
+
 var config = {
   apiKey: 'AIzaSyC47lRbubYO40J7JnfJcofcx6uy3nUyRCM',
   authDomain: 'passwordgrid.firebaseapp.com',

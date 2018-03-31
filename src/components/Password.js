@@ -188,18 +188,18 @@ class Password extends Component {
       animal: [...data.slice(30, 40)]
     })
   }
-  componentDidMount (){
+  componentDidMount () {
     this.timer = setInterval(this.calculateTime, 50)
   }
 
-  calculateTime = () => {
-    this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
+  calculateTime () {
+    this.setState({time: ((new Date() - this.props.start) / 10).toFixed(1)})
   }
 
   render () {
     const { country, landmark, food, animal, droppedIcons, message } = this.state
-    var elapsed = Math.round(this.state.time / 10);
-    var seconds = (elapsed / 10).toFixed(1);
+    // var elapsed = Math.round(this.state.time / 10)
+    // var seconds = (elapsed / 10).toFixed(1)
     return (
       <div style={{maxHeight: '80%', width: '100%'}}>
         {/* <div>{seconds}</div> */}
@@ -258,7 +258,7 @@ class Password extends Component {
             </button>
             <button
               style={{
-               ...buttonStyle,
+                ...buttonStyle,
                 backgroundColor: '#88bc5e',
                 width: 300
               }}

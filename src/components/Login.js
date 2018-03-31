@@ -12,14 +12,14 @@ class Login extends Component {
   render () {
     return (
       <div style={{display: 'flex', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-        userID:
+        name:
         <input
           type='text'
           name='userId'
           onChange={(text) => this.setState({uid: text})}
         />
         <button onClick={() => this.props.handleLogin()}>
-          Login
+          Go
         </button>
       </div>
     )
