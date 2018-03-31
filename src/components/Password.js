@@ -221,7 +221,7 @@ class Password extends Component {
         />
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{flexDirection: 'column'}}>
-            <div>Please practice your {this.props.type} password here:</div>
+            <div style={{width: 400, textAlign: 'center'}}>Please practice your {this.props.type} password here:</div>
             <Grid
               droppedIcons={droppedIcons}
               moveIcon={this.moveIcon}
@@ -235,20 +235,20 @@ class Password extends Component {
             label="Submit"
             style={buttonStyle}
             backgroundColor='#32c3e0'
-            labelColor='white'
+            labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={() => this.comparePassword(this.props.password)}/>
           <RaisedButton 
             label="Clear"
             style={buttonStyle}
             backgroundColor='#f94d89'
-            labelColor='white'
+            labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={this.clearGrid}/>
           <RaisedButton 
             label="I am done practicing, take me to test!"
             style={buttonStyle}
-            labelColor='white'
+            labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
             backgroundColor='#88bc5e'/>
           </div>

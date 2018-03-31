@@ -32,7 +32,7 @@ class Login extends Component {
           }
         }}
           style={{marginTop: 20}}
-          backgroundColor='#2ab6f7' label='START!' labelColor='white'/>
+          backgroundColor='#2ab6f7' label='START!' labelColor='#ffffff'/>
       </div>
     )
   }
