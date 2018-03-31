@@ -54,7 +54,8 @@ class Password extends Component {
     this.setState({message: ''})
     const {index, id, icon, category, dropped} = selectedicon
     const {actions, droppedIcons} = this.state
-    const {user, type} = this.props
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
 
     if (!droppedIcons.includes(null) && !dropped) {
       return
@@ -140,7 +141,8 @@ class Password extends Component {
     this.setState({message: ''})
     const {id, dropped, category} = icon
     const { actions, droppedIcons } = this.state
-    const {user, type} = this.props
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
 
     if (dropped && droppedIcons[index]) {
       return

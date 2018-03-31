@@ -32,7 +32,7 @@ class Practice extends Component {
         </div>
         <Password
           user={user}
-          type='practice'
+          test={false}
           pwType={type}
           password={pw}
         />
