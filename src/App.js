@@ -15,14 +15,17 @@ class App extends Component {
     this.handlePreviousButton = this.handlePreviousButton.bind(this)
     this.handleNextButton = this.handleNextButton.bind(this)
     this.handleGenerateNew = this.handleGenerateNew.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
 
     const emailPassword = this.generatePassword(4)
     const bankPassword = this.generatePassword(4)
     const shoppingPassword = this.generatePassword(4)
     const login = false
+    const username = ''
 
     this.state = {
       login,
+      username,
       index: 0,
       passwordArray: [
         {pw: emailPassword, type: 'email'},
@@ -67,9 +70,17 @@ class App extends Component {
     })
   }
 
+  handleLogin (username) {
+    this.setState({
+      username,
+      login: true
+    })
+  }
+
   render () {
     const {index, passwordArray, login} = this.state
     const {type, pw} = passwordArray[index]
+
     if (login) {
       return (
         <Practice
@@ -82,7 +93,7 @@ class App extends Component {
         />
       )
     } else {
-      return <Login handleLogin={() => this.setState({login: true})} />
+      return <Login handleLogin={this.handleLogin} />
     }
   }
 }

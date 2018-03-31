@@ -6,9 +6,21 @@ class Login extends Component {
   constructor (props) {
     super(props)
 
+    this.handleSubmit = this.handleSubmit.bind(this)
+
     this.state = {
-      uid: '',
+      text: '',
       error: false
+    }
+  }
+
+  handleSubmit () {
+    const { text } = this.state
+    if (!this.state.text) {
+      this.setState({error: true})
+    } else {
+      this.setState({error: false})
+      this.props.handleLogin(text)
     }
   }
 
@@ -21,19 +33,12 @@ class Login extends Component {
           style={{height: 50}}
           hintText='First Name, Last Name'
           errorText={this.state.error ? 'This field is required' : ''}
-          onChange={(text) => this.setState({uid: text})}
+          onChange={(evt, text) => this.setState({text})}
         />
         <RaisedButton
-          onClick={() => {
-            if (!this.state.uid) {
-              this.setState({error: true})
-            } else {
-              this.setState({error: false})
-              this.props.handleLogin()
-            }
-          }}
           style={{marginTop: 20}}
           backgroundColor='#2ab6f7' label='START!' labelColor='#ffffff'
+          onClick={this.handleSubmit}
         />
       </div>
     )
