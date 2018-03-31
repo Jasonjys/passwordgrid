@@ -61,6 +61,7 @@ class App extends Component {
       ]
     })
   }
+  
 
   render () {
     const {index, passwordArray} = this.state
@@ -92,6 +93,7 @@ class App extends Component {
         <Password
           type={type}
           password={pw}
+          start={Date.now()}
         />
       </div>
     )
