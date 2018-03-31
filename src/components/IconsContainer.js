@@ -6,7 +6,7 @@ class IconsContainer extends Component {
   render () {
     const { icons, category } = this.props
     return (
-      <div style={{display: 'flex', width: '100%', justifyContent: 'center', flexWrap: 'wrap'}}>
+      <div style={{display: 'flex', width: '100%', justifyContent: 'space-evenly', flexWrap: 'wrap'}}>
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: 10}}>
           {`${pluralize.plural(category)}:`}
         </div>
