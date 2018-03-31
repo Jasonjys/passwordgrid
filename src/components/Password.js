@@ -21,7 +21,9 @@ class Password extends Component {
     this.selectIcon = this.selectIcon.bind(this)
     this.dropIcon = this.dropIcon.bind(this)
     this.comparePassword = this.comparePassword.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.clearGrid = this.clearGrid.bind(this)
+    this.generateButtons = this.generateButtons.bind(this)
 
     const icons = this.generateIcons()
     const droppedIcons = new Array(4).fill(null)
@@ -30,7 +32,10 @@ class Password extends Component {
     this.state = {
       actions,
       droppedIcons,
-      time: this.props.start,
+      attempts: 0,
+      testTime: 0,
+      submitEnabled: true,
+      nextEnabled: false,
       ...icons
     }
   }
@@ -38,6 +43,11 @@ class Password extends Component {
   componentDidUpdate ({pwType}) {
     if (pwType !== this.props.pwType) {
       this.clearGrid()
+      this.setState({
+        attempts: 0,
+        nextEnabled: false,
+        submitEnabled: true
+      })
     }
   }
 
@@ -168,6 +178,14 @@ class Password extends Component {
       const draggingIcon = this.state[category].find((element) => {
         return element.id === id
       })
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon: icon.icon,
+        action: `add icon by drag and drop at index${index}`
+      })
+
       this.setState({
         actions: [...actions, icon],
         [category]: this.state[category].filter((item) => {
@@ -183,8 +201,35 @@ class Password extends Component {
     }
   }
 
+  handleSubmit (password) {
+    const {pwType} = this.props
+    if(this.comparePassword(password)){
+      this.setState({
+        nextEnabled: true,
+        submitEnabled: false
+      })
+      if(pwType === 'shopping') {
+        this.setState({done: true})
+      }
+    } else {
+      if (this.state.attempts === 2) {
+        if (pwType === 'shopping') {
+          this.setState({testTime: this.props.totalTime})
+          this.props.checkFinish(true)
+        }
+        this.setState({
+          attempts: 0,
+          submitEnabled: false,
+          nextEnabled: true
+        })
+      }
+    }
+  }
+
   comparePassword (password) {
-    const { droppedIcons } = this.state
+    const { droppedIcons, attempts } = this.state
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
 
     let identical = true
     droppedIcons.forEach((icon, i) => {
@@ -193,10 +238,27 @@ class Password extends Component {
       }
     })
 
-    if (password.length === droppedIcons.length && identical) {
-      this.setState({message: 'Success'})
+    const correct = password.length === droppedIcons.length && identical
+
+    firestore.collection(user).doc(type).collection('actions').add({
+      actionCnt: ++actionCnt,
+      time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      action: `submit ${correct ? 'correct' : 'wrong'} password`
+    })
+
+    if (correct) {
+      this.setState({message: 'Success!!'})
+      return true
     } else {
-      this.setState({message: 'Wrong Password'})
+      if(test){
+        this.setState({
+          attempts: attempts + 1,
+          message: `Wrong Password! Remaining attempts: ${2 - attempts}`
+        })
+      } else {
+        this.setState({message: 'Wrong Password'})
+      }
+      return false
     }
   }
 
@@ -210,21 +272,76 @@ class Password extends Component {
       animal: [...data.slice(30, 40)]
     })
   }
-  // componentDidMount () {
-  //   this.timer = setInterval(this.calculateTime, 50)
-  // }
 
-  // calculateTime () {
-  //   this.setState({time: ((new Date() - this.props.start) / 10).toFixed(1)})
-  // }
+  generateButtons () {
+    const {submitEnabled, nextEnabled} = this.state
+    const {password, test, pwType, comparePassword, goToTest, nextButtonFunc} = this.props
+    if(!test){
+      return (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <RaisedButton 
+          label="Submit"
+          style={buttonStyle}
+          backgroundColor='#32c3e0'
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          onClick={() => this.comparePassword(password)}/>
+        <RaisedButton 
+          label="Clear"
+          style={buttonStyle}
+          backgroundColor='#f94d89'
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          onClick={this.clearGrid}/>
+        <RaisedButton 
+          label="I am done practicing, take me to test!"
+          style={buttonStyle}
+          labelColor='#ffffff'
+          onClick={() => goToTest()}
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          backgroundColor='#88bc5e'/>
+      </div>)
+    } else {
+      return ( 
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <RaisedButton 
+            label="SUBMIT"
+            style={{...buttonStyle, width: 110}}
+            labelColor='#ffffff'
+            disabled={!submitEnabled}
+            labelStyle={{fontSize: 15, fontWeight: 500}}
+            onClick={()=>{this.handleSubmit(password)}}
+            backgroundColor='#88bc5e'
+          />
+          <RaisedButton 
+            label="Clear"
+            style={{...buttonStyle, width: 110}}
+            backgroundColor='#f94d89'
+            labelColor='#ffffff'
+            disabled={!submitEnabled}
+            labelStyle={{fontSize: 15, fontWeight: 500}}
+            onClick={this.clearGrid}
+          />
+          <RaisedButton 
+            label="NEXT PASSWORD"
+            style={{...buttonStyle}}
+            backgroundColor='#32c3e0'
+            labelColor='#ffffff'
+            disabled={!nextEnabled || (pwType === 'shopping')}
+            onClick={() => nextButtonFunc()}
+            labelStyle={{fontSize: 15, fontWeight: 500}}
+          />
+         </div>
+      )
+    }
+  }
+
 
   render () {
-    const { country, landmark, food, animal, droppedIcons, message } = this.state
-    // var elapsed = Math.round(this.state.time / 10)
-    // var seconds = (elapsed / 10).toFixed(1)
+    const {country, landmark, food, animal, droppedIcons, message, done} = this.state
+    const {test, pwType} = this.props
     return (
-      <div style={{maxHeight: '80%', width: '100%'}}>
-        {/* <div>{seconds}</div> */}
+    <div style={{maxHeight: '80%', width: '100%'}}>
         <IconsContainer
           icons={country}
           category={'country'}
@@ -251,40 +368,26 @@ class Password extends Component {
         />
         <div style={{display: 'flex', padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{flexDirection: 'column'}}>
-            <div style={{width: 350, textAlign: 'center'}}>Please practice your {this.props.pwType} password here:</div>
+            <div style={{width: 350, textAlign: 'center'}}>Please {test ? 'enter' : 'practice'} {pwType} password here:</div>
             <Grid
               droppedIcons={droppedIcons}
               moveIcon={this.moveIcon}
               selectIcon={this.selectIcon}
               onDrop={this.dropIcon}
             />
-            <div style={{textAlign: 'center', fontSize: 12, padding: 5, height: 10}}>{message}</div>
+            <div 
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                padding: 5,
+                height: 10,
+                color: message === 'Success!!' ? '#00a023': 'red'
+              }}
+            >
+              {message}
+            </div>
           </div>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <RaisedButton
-              label='Submit'
-              style={buttonStyle}
-              backgroundColor='#32c3e0'
-              labelColor='#ffffff'
-              labelStyle={{fontSize: 15, fontWeight: 500}}
-              onClick={() => this.comparePassword(this.props.password)}
-            />
-            <RaisedButton
-              label='Clear'
-              style={buttonStyle}
-              backgroundColor='#f94d89'
-              labelColor='#ffffff'
-              labelStyle={{fontSize: 15, fontWeight: 500}}
-              onClick={this.clearGrid}
-            />
-            <RaisedButton
-              label='I am done practicing, take me to test!'
-              style={buttonStyle}
-              labelColor='#ffffff'
-              labelStyle={{fontSize: 15, fontWeight: 500}}
-              backgroundColor='#88bc5e'
-            />
-          </div>
+          {this.generateButtons()}
         </div>
       </div>
     )

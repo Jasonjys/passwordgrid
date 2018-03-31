@@ -5,6 +5,8 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import Login from './components/Login'
 import data from './components/Data'
 import Practice from './components/Practice'
+import Test from './components/Test'
+import EndScreen from './components/EndScreen'
 
 class App extends Component {
   constructor (props) {
@@ -15,6 +17,8 @@ class App extends Component {
     this.handlePreviousButton = this.handlePreviousButton.bind(this)
     this.handleNextButton = this.handleNextButton.bind(this)
     this.handleGenerateNew = this.handleGenerateNew.bind(this)
+    this.handleGoToTest = this.handleGoToTest.bind(this)
+    this.checkFinish = this.checkFinish.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
 
     const emailPassword = this.generatePassword(4)
@@ -27,6 +31,10 @@ class App extends Component {
       login,
       username,
       index: 0,
+      finish: false,
+      practiceTime: 0,
+      practice: true,
+      testStartTime: 0,
       passwordArray: [
         {pw: emailPassword, type: 'email'},
         {pw: bankPassword, type: 'banking'},
@@ -70,6 +78,18 @@ class App extends Component {
     })
   }
 
+  handleGoToTest (time) {
+    this.setState({
+      practice: false,
+      practiceTime: time,
+      testStartTime: Date.now()
+    })
+  }
+
+  checkFinish (done) {
+    this.setState({finish: done})
+  }
+
   handleLogin (username) {
     this.setState({
       username,
@@ -78,21 +98,40 @@ class App extends Component {
   }
 
   render () {
-    const {index, passwordArray, login, username} = this.state
+    const {index, passwordArray, login, practice, testStartTime, finish, username} = this.state
     const {type, pw} = passwordArray[index]
 
     if (login) {
-      return (
-        <Practice
-          pw={pw}
-          user={username}
-          type={type}
-          index={index}
-          nextButtonFunc={this.handleNextButton}
-          previousButtonFunc={this.handlePreviousButton}
-          newPasswordFunc={this.handleGenerateNew}
-        />
-      )
+      if (practice){
+        return (
+          <Practice
+            pw={pw}
+            type={type}
+            index={index}
+            user={username}
+            nextButtonFunc={this.handleNextButton}
+            previousButtonFunc={this.handlePreviousButton}
+            newPasswordFunc={this.handleGenerateNew}
+            goToTestFunc={this.handleGoToTest}
+            start={Date.now()}
+          />
+        )} else {
+          if(finish){
+            return <EndScreen />
+          } else {
+            return (
+              <Test
+                pw={pw}
+                user={username}
+                type={type}
+                index={index}
+                start={testStartTime}
+                nextButtonFunc={this.handleNextButton}
+                checkFinish={this.checkFinish}
+              />
+            )
+          }
+        }
     } else {
       return <Login handleLogin={this.handleLogin} />
     }

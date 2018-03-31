@@ -3,6 +3,31 @@ import GivenPassword from './GivenPassword'
 import Password from './Password'
 
 class Practice extends Component {
+    constructor (props) {
+      super(props)
+      this.calculateTime = this.calculateTime.bind(this)
+      this.totalTime = this.totalTime.bind(this)
+      this.state = {
+        time: 0
+      }
+    }
+
+  componentDidMount () {
+    this.timer = setInterval(this.calculateTime, 50)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.timer)
+  }
+
+  calculateTime () {
+    this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
+  }
+
+  totalTime () {
+    var elapsed = Math.round(this.state.time / 10)
+    return (elapsed / 10).toFixed(1)
+  }
   render () {
     const {type, pw, index, user} = this.props
     return (
@@ -17,10 +42,10 @@ class Practice extends Component {
               disabled={index === 0}
               onClick={() => this.props.previousButtonFunc()}
             >
-              Previous password
+                Previous password
             </button>
             <button onClick={() => this.props.newPasswordFunc(index, type)}>
-              Generate new password
+                Generate new password
             </button>
             <button
               disabled={index === 2}
@@ -32,9 +57,10 @@ class Practice extends Component {
         </div>
         <Password
           user={user}
-          test={false}
           pwType={type}
           password={pw}
+          test={false}
+          goToTest={() => this.props.goToTestFunc(this.totalTime())}
         />
       </div>
     )
