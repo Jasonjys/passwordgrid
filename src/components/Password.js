@@ -14,7 +14,7 @@ const buttonStyle = {
   fontWeight: 600,
   backgroundColor: '#33dae0',
   color: 'white',
-  borderRadius: 10,
+  borderRadius: 6,
   boxShadow: '2px 3px 3px 0px rgba(176,176,176,1)'
 }
 
@@ -188,13 +188,13 @@ class Password extends Component {
       animal: [...data.slice(30, 40)]
     })
   }
-  componentDidMount () {
-    this.timer = setInterval(this.calculateTime, 50)
-  }
+  // componentDidMount () {
+  //   this.timer = setInterval(this.calculateTime, 50)
+  // }
 
-  calculateTime () {
-    this.setState({time: ((new Date() - this.props.start) / 10).toFixed(1)})
-  }
+  // calculateTime () {
+  //   this.setState({time: ((new Date() - this.props.start) / 10).toFixed(1)})
+  // }
 
   render () {
     const { country, landmark, food, animal, droppedIcons, message } = this.state
