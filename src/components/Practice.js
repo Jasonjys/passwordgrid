@@ -34,6 +34,8 @@ class Practice extends Component {
             <Password
               type={type}
               password={pw}
+              test={false}
+              goToTest={this.props.goToTestFunc}
             />
           </div>
       )

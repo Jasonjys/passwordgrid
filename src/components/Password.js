@@ -188,6 +188,57 @@ class Password extends Component {
     this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
   }
 
+  generateButtons () {
+    if(!this.props.test){
+      return (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <RaisedButton 
+          label="Submit"
+          style={buttonStyle}
+          backgroundColor='#32c3e0'
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          onClick={() => this.comparePassword(this.props.password)}/>
+        <RaisedButton 
+          label="Clear"
+          style={buttonStyle}
+          backgroundColor='#f94d89'
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          onClick={this.clearGrid}/>
+        <RaisedButton 
+          label="I am done practicing, take me to test!"
+          style={buttonStyle}
+          labelColor='#ffffff'
+          onClick={() => this.props.goToTest()}
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          backgroundColor='#88bc5e'/>
+      </div>)
+    } else {
+      return ( 
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <RaisedButton 
+          label="NEXT"
+          style={buttonStyle}
+          backgroundColor='#32c3e0'
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}/>
+        <RaisedButton 
+          label="PREVIOUS"
+          style={buttonStyle}
+          backgroundColor='#f94d89'
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}/>
+        <RaisedButton 
+          label="SUBMIT"
+          style={buttonStyle}
+          labelColor='#ffffff'
+          labelStyle={{fontSize: 15, fontWeight: 500}}
+          backgroundColor='#88bc5e'/>
+      </div>)
+    }
+  }
+
   render () {
     const { country, landmark, food, animal, droppedIcons, message } = this.state
     var elapsed = Math.round(this.state.time / 10);
@@ -230,28 +281,7 @@ class Password extends Component {
             />
             <div style={{textAlign: 'center', fontSize: 12, padding: 5, height: 10}}>{message}</div>
           </div>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <RaisedButton 
-            label="Submit"
-            style={buttonStyle}
-            backgroundColor='#32c3e0'
-            labelColor='#ffffff'
-            labelStyle={{fontSize: 15, fontWeight: 500}}
-            onClick={() => this.comparePassword(this.props.password)}/>
-          <RaisedButton 
-            label="Clear"
-            style={buttonStyle}
-            backgroundColor='#f94d89'
-            labelColor='#ffffff'
-            labelStyle={{fontSize: 15, fontWeight: 500}}
-            onClick={this.clearGrid}/>
-          <RaisedButton 
-            label="I am done practicing, take me to test!"
-            style={buttonStyle}
-            labelColor='#ffffff'
-            labelStyle={{fontSize: 15, fontWeight: 500}}
-            backgroundColor='#88bc5e'/>
-          </div>
+          {this.generateButtons()}
         </div>
       </div>
     )
