@@ -17,7 +17,9 @@ class Password extends Component {
     this.selectIcon = this.selectIcon.bind(this)
     this.dropIcon = this.dropIcon.bind(this)
     this.comparePassword = this.comparePassword.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.clearGrid = this.clearGrid.bind(this)
+    this.generateButtons = this.generateButtons.bind(this)
 
     const icons = this.generateIcons()
     const droppedIcons = new Array(4).fill(null)
@@ -26,7 +28,10 @@ class Password extends Component {
     this.state = {
       actions,
       droppedIcons,
-      time: this.props.start,
+      attempts: 0,
+      testTime: 0,
+      submitEnabled: true,
+      nextEnabled: false,
       ...icons
     }
   }
@@ -34,6 +39,11 @@ class Password extends Component {
   componentDidUpdate ({type}) {
     if (type !== this.props.type) {
       this.clearGrid()
+      this.setState({
+        attempts: 0,
+        nextEnabled: false,
+        submitEnabled: true
+      })
     }
   }
 
@@ -153,9 +163,35 @@ class Password extends Component {
     }
   }
 
-  comparePassword (password) {
-    const { droppedIcons } = this.state
+  handleSubmit (password) {
+    if(this.comparePassword(password)){
+      this.setState({
+        nextEnabled: true,
+        submitEnabled: false
+      })
+      if(this.props.type === 'shopping'){
+        this.setState({done: true})
+      }
+    } else {
+      if(this.state.attempts === 2){
+        this.setState({
+          attempts: 0,
+          submitEnabled: false,
+          nextEnabled: true
+        })
+        if(this.props.type === 'shopping'){
+          this.setState({
+            testTime: this.props.totalTime})
+          this.props.checkFinish(true)
+        }
+      }
+    }
+  }
 
+  comparePassword (password) {
+    const { droppedIcons, attempts } = this.state
+
+    //this.setState({attempts: this.state.attempts + 1})
     let identical = true
     droppedIcons.forEach((icon, i) => {
       if (!_.isEqual(icon, password[i])) {
@@ -164,9 +200,18 @@ class Password extends Component {
     })
 
     if (password.length === droppedIcons.length && identical) {
-      this.setState({message: 'Success'})
+      this.setState({message: 'Success!!'})
+      return true
     } else {
-      this.setState({message: 'Wrong Password'})
+      if(this.props.test){
+        this.setState({
+          attempts: attempts + 1,
+          message: `Wrong Password! Remaining attempts: ${2 - attempts}`
+        })
+      } else {
+        this.setState({message: 'Wrong Password'})
+      }
+      return false
     }
   }
 
@@ -180,16 +225,18 @@ class Password extends Component {
       animal: [...data.slice(30, 40)]
     })
   }
-  componentDidMount (){
-    this.timer = setInterval(this.calculateTime, 50)
-  }
+  // componentDidMount (){
+  //   this.timer = setInterval(this.calculateTime, 50)
+  // }
 
-  calculateTime = () => {
-    this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
-  }
+  // calculateTime = () => {
+  //   this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
+  // }
 
   generateButtons () {
-    if(!this.props.test){
+    const {submitEnabled, nextEnabled} = this.state
+    const {password, test, type, comparePassword, goToTest, nextButtonFunc} = this.props
+    if(!test){
       return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <RaisedButton 
@@ -198,7 +245,7 @@ class Password extends Component {
           backgroundColor='#32c3e0'
           labelColor='#ffffff'
           labelStyle={{fontSize: 15, fontWeight: 500}}
-          onClick={() => this.comparePassword(this.props.password)}/>
+          onClick={() => this.comparePassword(password)}/>
         <RaisedButton 
           label="Clear"
           style={buttonStyle}
@@ -210,42 +257,52 @@ class Password extends Component {
           label="I am done practicing, take me to test!"
           style={buttonStyle}
           labelColor='#ffffff'
-          onClick={() => this.props.goToTest()}
+          onClick={() => goToTest()}
           labelStyle={{fontSize: 15, fontWeight: 500}}
           backgroundColor='#88bc5e'/>
       </div>)
     } else {
       return ( 
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <RaisedButton 
-          label="NEXT"
-          style={buttonStyle}
-          backgroundColor='#32c3e0'
-          labelColor='#ffffff'
-          labelStyle={{fontSize: 15, fontWeight: 500}}/>
-        <RaisedButton 
-          label="PREVIOUS"
-          style={buttonStyle}
-          backgroundColor='#f94d89'
-          labelColor='#ffffff'
-          labelStyle={{fontSize: 15, fontWeight: 500}}/>
-        <RaisedButton 
-          label="SUBMIT"
-          style={buttonStyle}
-          labelColor='#ffffff'
-          labelStyle={{fontSize: 15, fontWeight: 500}}
-          backgroundColor='#88bc5e'/>
-      </div>)
+          <RaisedButton 
+            label="SUBMIT"
+            style={{...buttonStyle, width: 110}}
+            labelColor='#ffffff'
+            disabled={!submitEnabled}
+            labelStyle={{fontSize: 15, fontWeight: 500}}
+            onClick={()=>{this.handleSubmit(password)}}
+            backgroundColor='#88bc5e'
+          />
+          <RaisedButton 
+            label="Clear"
+            style={{...buttonStyle, width: 110}}
+            backgroundColor='#f94d89'
+            labelColor='#ffffff'
+            disabled={!submitEnabled}
+            labelStyle={{fontSize: 15, fontWeight: 500}}
+            onClick={this.clearGrid}
+          />
+          <RaisedButton 
+            label="NEXT PASSWORD"
+            style={{...buttonStyle}}
+            backgroundColor='#32c3e0'
+            labelColor='#ffffff'
+            disabled={!nextEnabled || (this.props.type === 'shopping')}
+            onClick={() => nextButtonFunc()}
+            labelStyle={{fontSize: 15, fontWeight: 500}}
+          />
+         </div>
+      )
     }
   }
 
+
   render () {
-    const { country, landmark, food, animal, droppedIcons, message } = this.state
-    var elapsed = Math.round(this.state.time / 10);
-    var seconds = (elapsed / 10).toFixed(1);
+    const { country, landmark, food, animal, droppedIcons, message, done } = this.state
+    // var elapsed = Math.round(this.state.time / 10);
+    // var seconds = (elapsed / 10).toFixed(1);
     return (
-      <div style={{maxHeight: '80%', width: '100%'}}>
-        {/* <div>{seconds}</div> */}
+    <div style={{maxHeight: '80%', width: '100%'}}>
         <IconsContainer
           icons={country}
           category={'country'}
@@ -270,16 +327,24 @@ class Password extends Component {
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{flexDirection: 'column'}}>
-            <div style={{width: 400, textAlign: 'center'}}>Please practice your {this.props.type} password here:</div>
+            <div style={{width: 400, textAlign: 'center'}}>
+              Please {this.props.test? 'enter': 'practice'} your {this.props.type} password here:
+            </div>
             <Grid
               droppedIcons={droppedIcons}
               moveIcon={this.moveIcon}
               selectIcon={this.selectIcon}
               onDrop={this.dropIcon}
             />
-            <div style={{textAlign: 'center', fontSize: 12, padding: 5, height: 10}}>{message}</div>
+            <div 
+            style={{
+              textAlign: 'center',
+              fontSize: 12,
+              padding: 5,
+              height: 10,
+              color: message==='Success!!'? '#00a023': 'red'}}>{message}</div>
           </div>
           {this.generateButtons()}
         </div>

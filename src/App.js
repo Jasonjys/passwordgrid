@@ -8,6 +8,7 @@ import Login from './components/Login'
 import data from './components/Data'
 import Practice from './components/Practice'
 import Test from './components/Test'
+import EndScreen from './components/EndScreen'
 
 class App extends Component {
   constructor (props) {
@@ -19,6 +20,7 @@ class App extends Component {
     this.handleNextButton = this.handleNextButton.bind(this)
     this.handleGenerateNew = this.handleGenerateNew.bind(this)
     this.handleGoToTest = this.handleGoToTest.bind(this)
+    this.checkFinish = this.checkFinish.bind(this)
 
     const emailPassword = this.generatePassword(4)
     const bankPassword = this.generatePassword(4)
@@ -28,7 +30,10 @@ class App extends Component {
     this.state = {
       login: true,
       index: 0,
+      finish: false,
+      practiceTime: 0,
       practice: true,
+      testStartTime: 0,
       passwordArray: [
         {pw: emailPassword, type: 'email'},
         {pw: bankPassword, type: 'bank'},
@@ -72,14 +77,20 @@ class App extends Component {
     })
   }
 
-  handleGoToTest () {
-    debugger
-    this.setState({practice: false})
+  handleGoToTest (time) {
+    this.setState({
+      practice: false,
+      practiceTime: time,
+      testStartTime: Date.now()
+    })
   }
-  
+
+  checkFinish (done) {
+    this.setState({finish: done})
+  }
 
   render () {
-    const {index, passwordArray, login, practice} = this.state
+    const {index, passwordArray, login, practice, testStartTime, finish} = this.state
     const {type, pw} = passwordArray[index]
     if (login) {
       if (practice){
@@ -92,13 +103,23 @@ class App extends Component {
             previousButtonFunc={this.handlePreviousButton}
             newPasswordFunc={this.handleGenerateNew}
             goToTestFunc={this.handleGoToTest}
+            start={Date.now()}
           />
-        )} else{
-          <Test
-            type={type}
-            pw={pw}
-            index={index}
-          />
+        )} else {
+          if(finish){
+            return <EndScreen />
+          } else {
+            return (
+              <Test
+                type={type}
+                pw={pw}
+                index={index}
+                start={testStartTime}
+                nextButtonFunc={this.handleNextButton}
+                checkFinish={this.checkFinish}
+              />
+            )
+          }
         }
     } else {
       return <Login handleLogin={() => this.setState({login: true})} />
