@@ -5,6 +5,19 @@ import Grid from './Grid'
 import IconsContainer from './IconsContainer'
 import data from './Data'
 
+const buttonStyle = {
+  width: 100,
+  fontSize: 15,
+  border: 'none',
+  margin: 5,
+  padding: 10,
+  fontWeight: 600,
+  backgroundColor: '#33dae0',
+  color: 'white',
+  borderRadius: 10,
+  boxShadow: '2px 3px 3px 0px rgba(176,176,176,1)'
+}
+
 class Password extends Component {
   constructor (props) {
     super(props)
@@ -21,6 +34,7 @@ class Password extends Component {
     this.state = {
       actions,
       droppedIcons,
+      time: this.props.start,
       ...icons
     }
   }
@@ -174,12 +188,21 @@ class Password extends Component {
       animal: [...data.slice(30, 40)]
     })
   }
+  componentDidMount (){
+    this.timer = setInterval(this.calculateTime, 50)
+  }
+
+  calculateTime = () => {
+    this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
+  }
 
   render () {
     const { country, landmark, food, animal, droppedIcons, message } = this.state
-
+    var elapsed = Math.round(this.state.time / 10);
+    var seconds = (elapsed / 10).toFixed(1);
     return (
       <div style={{maxHeight: '80%', width: '100%'}}>
+        {/* <div>{seconds}</div> */}
         <IconsContainer
           icons={country}
           category={'country'}
@@ -204,29 +227,46 @@ class Password extends Component {
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-          <div>Please practice your {this.props.type} password here:</div>
-          <Grid
-            droppedIcons={droppedIcons}
-            moveIcon={this.moveIcon}
-            selectIcon={this.selectIcon}
-            onDrop={this.dropIcon}
-          />
-          <div style={{fontSize: 12, padding: 5}}>{message}</div>
-        </div>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-          <button
-            style={{width: 100}}
-            onClick={() => this.comparePassword(this.props.password)}
-          >
-            Submit
-          </button>
-          <button
-            style={{width: 100}}
-            onClick={this.clearGrid}
-          >
-            Clear
-          </button>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{flexDirection: 'column'}}>
+            <div>Please practice your {this.props.type} password here:</div>
+            <Grid
+              droppedIcons={droppedIcons}
+              moveIcon={this.moveIcon}
+              selectIcon={this.selectIcon}
+              onDrop={this.dropIcon}
+            />
+            <div style={{textAlign: 'center', fontSize: 12, padding: 5, height: 10}}>{message}</div>
+          </div>
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <button
+              style={{
+                ...buttonStyle,
+                backgroundColor: '#32c3e0'
+              }}
+              onClick={() => this.comparePassword(this.props.password)}
+            >
+              Submit
+            </button>
+            <button
+              style={{
+                ...buttonStyle,
+                backgroundColor: '#f94d89'}}
+              onClick={this.clearGrid}
+            >
+              Clear
+            </button>
+            <button
+              style={{
+               ...buttonStyle,
+                backgroundColor: '#88bc5e',
+                width: 300
+              }}
+              onClick={this.clearGrid}
+            >
+              I am done practicing, take me to test!
+            </button>
+          </div>
         </div>
       </div>
     )

@@ -66,6 +66,7 @@ class App extends Component {
       ]
     })
   }
+  
 
   render () {
     const {index, passwordArray, login} = this.state
