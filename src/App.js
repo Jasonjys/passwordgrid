@@ -73,35 +73,35 @@ class App extends Component {
     const {type, pw} = passwordArray[index]
     if (login) {
       return (
-        <div style={{height: '100%', width: '100%'}}>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <GivenPassword
-              passwordType={type}
+          <div style={{height: '100%', width: '100%'}}>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <GivenPassword
+                passwordType={type}
+                password={pw}
+              />
+              <div>
+                <button
+                  disabled={index === 0}
+                  onClick={() => this.handlePreviousButton()}
+                >
+                    Previous password
+                </button>
+                <button onClick={() => this.handleGenerateNew(index, type)}>
+                    Generate new password
+                </button>
+                <button
+                  disabled={index === passwordArray.length - 1}
+                  onClick={() => this.handleNextButton(type)}
+                >
+                  Next password
+                </button>
+              </div>
+            </div>
+            <Password
+              type={type}
               password={pw}
             />
-            <div>
-              <button
-                disabled={index === 0}
-                onClick={() => this.handlePreviousButton()}
-              >
-                  Previous password
-              </button>
-              <button onClick={() => this.handleGenerateNew(index, type)}>
-                  Generate new password
-              </button>
-              <button
-                disabled={index === passwordArray.length - 1}
-                onClick={() => this.handleNextButton(type)}
-              >
-                 Next password
-              </button>
-            </div>
           </div>
-          <Password
-            type={type}
-            password={pw}
-          />
-        </div>
       )
     } else {
       return <Login handleLogin={() => this.setState({login: true})} />
