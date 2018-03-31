@@ -29,18 +29,19 @@ class Test extends Component {
   }
 
   render () {
-    const {type, pw, index, nextButtonFunc, checkFinish} = this.props
+    const {type, pw, index, user, nextButtonFunc, checkFinish} = this.props
       return (
-          <div style={{height: '100%', width: '100%'}}>
-            <Password
-              type={type}
-              password={pw}
-              test={true}
-              totalTime={this.totalTime()}
-              nextButtonFunc={nextButtonFunc}
-              checkFinish={checkFinish}
-            />
-          </div>
+        <div style={{height: '100%', width: '100%'}}>
+          <Password
+            test
+            user={user}
+            pwType={type}
+            password={pw}
+            totalTime={this.totalTime()}
+            nextButtonFunc={nextButtonFunc}
+            checkFinish={checkFinish}
+          />
+        </div>
       )
   }
 }

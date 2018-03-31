@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import moment from 'moment'
 import update from 'immutability-helper'
 import Grid from './Grid'
-import IconsContainer from './IconsContainer'
 import data from './Data'
+import { firestore } from '../index'
+import IconsContainer from './IconsContainer'
 import RaisedButton from 'material-ui/RaisedButton'
 
 const buttonStyle = {
   margin: 5
 }
+
+let actionCnt = 0
 
 class Password extends Component {
   constructor (props) {
@@ -36,8 +40,8 @@ class Password extends Component {
     }
   }
 
-  componentDidUpdate ({type}) {
-    if (type !== this.props.type) {
+  componentDidUpdate ({pwType}) {
+    if (pwType !== this.props.pwType) {
       this.clearGrid()
       this.setState({
         attempts: 0,
@@ -60,12 +64,22 @@ class Password extends Component {
     this.setState({message: ''})
     const {index, id, icon, category, dropped} = selectedicon
     const {actions, droppedIcons} = this.state
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
+
     if (!droppedIcons.includes(null) && !dropped) {
       return
     }
 
     if (dropped) {
       const oldIconStatus = {...actions[actions.length - 1]}
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon,
+        action: `remove icon at index${index}`
+      })
 
       this.setState({
         actions: [...actions.slice(0, actions.length - 1)],
@@ -83,6 +97,13 @@ class Password extends Component {
     } else {
       const nullIndex = droppedIcons.findIndex((item) => {
         return !item
+      })
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon,
+        action: `add icon by clicking at index${nullIndex}`
       })
 
       this.setState({
@@ -130,6 +151,8 @@ class Password extends Component {
     this.setState({message: ''})
     const {id, dropped, category} = icon
     const { actions, droppedIcons } = this.state
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
 
     if (dropped && droppedIcons[index]) {
       return
@@ -141,6 +164,13 @@ class Password extends Component {
       newDroppedIcons[icon.index] = null
       newDroppedIcons[index] = {...droppedIcons[icon.index]}
       this.setState({droppedIcons: newDroppedIcons})
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon: icon.icon,
+        action: `move icon at index${icon.index} to an empty square at index${index}`
+      })
     }
 
     // drop icon to empty square
@@ -148,6 +178,14 @@ class Password extends Component {
       const draggingIcon = this.state[category].find((element) => {
         return element.id === id
       })
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon: icon.icon,
+        action: `add icon by drag and drop at index${index}`
+      })
+
       this.setState({
         actions: [...actions, icon],
         [category]: this.state[category].filter((item) => {
@@ -164,34 +202,35 @@ class Password extends Component {
   }
 
   handleSubmit (password) {
+    const {pwType} = this.props
     if(this.comparePassword(password)){
       this.setState({
         nextEnabled: true,
         submitEnabled: false
       })
-      if(this.props.type === 'shopping'){
+      if(pwType === 'shopping') {
         this.setState({done: true})
       }
     } else {
-      if(this.state.attempts === 2){
+      if (this.state.attempts === 2) {
+        if (pwType === 'shopping') {
+          this.setState({testTime: this.props.totalTime})
+          this.props.checkFinish(true)
+        }
         this.setState({
           attempts: 0,
           submitEnabled: false,
           nextEnabled: true
         })
-        if(this.props.type === 'shopping'){
-          this.setState({
-            testTime: this.props.totalTime})
-          this.props.checkFinish(true)
-        }
       }
     }
   }
 
   comparePassword (password) {
     const { droppedIcons, attempts } = this.state
+    const {user, test} = this.props
+    const type = test ? 'test' : 'practice'
 
-    //this.setState({attempts: this.state.attempts + 1})
     let identical = true
     droppedIcons.forEach((icon, i) => {
       if (!_.isEqual(icon, password[i])) {
@@ -199,11 +238,19 @@ class Password extends Component {
       }
     })
 
-    if (password.length === droppedIcons.length && identical) {
+    const correct = password.length === droppedIcons.length && identical
+
+    firestore.collection(user).doc(type).collection('actions').add({
+      actionCnt: ++actionCnt,
+      time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      action: `submit ${correct ? 'correct' : 'wrong'} password`
+    })
+
+    if (correct) {
       this.setState({message: 'Success!!'})
       return true
     } else {
-      if(this.props.test){
+      if(test){
         this.setState({
           attempts: attempts + 1,
           message: `Wrong Password! Remaining attempts: ${2 - attempts}`
@@ -225,17 +272,10 @@ class Password extends Component {
       animal: [...data.slice(30, 40)]
     })
   }
-  // componentDidMount (){
-  //   this.timer = setInterval(this.calculateTime, 50)
-  // }
-
-  // calculateTime = () => {
-  //   this.setState({time: ((new Date()-this.props.start)/10).toFixed(1)})
-  // }
 
   generateButtons () {
     const {submitEnabled, nextEnabled} = this.state
-    const {password, test, type, comparePassword, goToTest, nextButtonFunc} = this.props
+    const {password, test, pwType, comparePassword, goToTest, nextButtonFunc} = this.props
     if(!test){
       return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -287,7 +327,7 @@ class Password extends Component {
             style={{...buttonStyle}}
             backgroundColor='#32c3e0'
             labelColor='#ffffff'
-            disabled={!nextEnabled || (this.props.type === 'shopping')}
+            disabled={!nextEnabled || (pwType === 'shopping')}
             onClick={() => nextButtonFunc()}
             labelStyle={{fontSize: 15, fontWeight: 500}}
           />
@@ -298,9 +338,8 @@ class Password extends Component {
 
 
   render () {
-    const { country, landmark, food, animal, droppedIcons, message, done } = this.state
-    // var elapsed = Math.round(this.state.time / 10);
-    // var seconds = (elapsed / 10).toFixed(1);
+    const {country, landmark, food, animal, droppedIcons, message, done} = this.state
+    const {test, pwType} = this.props
     return (
     <div style={{maxHeight: '80%', width: '100%'}}>
         <IconsContainer
@@ -327,11 +366,9 @@ class Password extends Component {
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
-          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{display: 'flex', padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{flexDirection: 'column'}}>
-            <div style={{width: 400, textAlign: 'center'}}>
-              Please {this.props.test? 'enter': 'practice'} your {this.props.type} password here:
-            </div>
+            <div style={{width: 350, textAlign: 'center'}}>Please {test ? 'enter' : 'practice'} {pwType} password here:</div>
             <Grid
               droppedIcons={droppedIcons}
               moveIcon={this.moveIcon}
@@ -339,12 +376,16 @@ class Password extends Component {
               onDrop={this.dropIcon}
             />
             <div 
-            style={{
-              textAlign: 'center',
-              fontSize: 12,
-              padding: 5,
-              height: 10,
-              color: message==='Success!!'? '#00a023': 'red'}}>{message}</div>
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                padding: 5,
+                height: 10,
+                color: message === 'Success!!' ? '#00a023': 'red'
+              }}
+            >
+              {message}
+            </div>
           </div>
           {this.generateButtons()}
         </div>
