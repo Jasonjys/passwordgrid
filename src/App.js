@@ -29,7 +29,7 @@ class App extends Component {
       index: 0,
       passwordArray: [
         {pw: emailPassword, type: 'email'},
-        {pw: bankPassword, type: 'bank'},
+        {pw: bankPassword, type: 'banking'},
         {pw: shoppingPassword, type: 'shopping'}
       ]
     }
@@ -78,14 +78,15 @@ class App extends Component {
   }
 
   render () {
-    const {index, passwordArray, login} = this.state
+    const {index, passwordArray, login, username} = this.state
     const {type, pw} = passwordArray[index]
 
     if (login) {
       return (
         <Practice
-          type={type}
           pw={pw}
+          user={username}
+          type={type}
           index={index}
           nextButtonFunc={this.handleNextButton}
           previousButtonFunc={this.handlePreviousButton}

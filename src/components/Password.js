@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import moment from 'moment'
 import update from 'immutability-helper'
 import Grid from './Grid'
-import IconsContainer from './IconsContainer'
 import data from './Data'
+import { firestore } from '../index'
+import IconsContainer from './IconsContainer'
 import RaisedButton from 'material-ui/RaisedButton'
 
 const buttonStyle = {
   margin: 5
 }
+
+let actionCnt = 0
 
 class Password extends Component {
   constructor (props) {
@@ -31,8 +35,8 @@ class Password extends Component {
     }
   }
 
-  componentDidUpdate ({type}) {
-    if (type !== this.props.type) {
+  componentDidUpdate ({pwType}) {
+    if (pwType !== this.props.pwType) {
       this.clearGrid()
     }
   }
@@ -50,12 +54,21 @@ class Password extends Component {
     this.setState({message: ''})
     const {index, id, icon, category, dropped} = selectedicon
     const {actions, droppedIcons} = this.state
+    const {user, type} = this.props
+
     if (!droppedIcons.includes(null) && !dropped) {
       return
     }
 
     if (dropped) {
       const oldIconStatus = {...actions[actions.length - 1]}
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon,
+        action: `remove icon at index${index}`
+      })
 
       this.setState({
         actions: [...actions.slice(0, actions.length - 1)],
@@ -73,6 +86,13 @@ class Password extends Component {
     } else {
       const nullIndex = droppedIcons.findIndex((item) => {
         return !item
+      })
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon,
+        action: `add icon by clicking at index${nullIndex}`
       })
 
       this.setState({
@@ -120,6 +140,7 @@ class Password extends Component {
     this.setState({message: ''})
     const {id, dropped, category} = icon
     const { actions, droppedIcons } = this.state
+    const {user, type} = this.props
 
     if (dropped && droppedIcons[index]) {
       return
@@ -131,6 +152,13 @@ class Password extends Component {
       newDroppedIcons[icon.index] = null
       newDroppedIcons[index] = {...droppedIcons[icon.index]}
       this.setState({droppedIcons: newDroppedIcons})
+
+      firestore.collection(user).doc(type).collection('actions').add({
+        actionCnt: ++actionCnt,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        icon: icon.icon,
+        action: `move icon at index${icon.index} to an empty square at index${index}`
+      })
     }
 
     // drop icon to empty square
@@ -219,9 +247,9 @@ class Password extends Component {
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{display: 'flex', padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{flexDirection: 'column'}}>
-            <div style={{width: 400, textAlign: 'center'}}>Please practice your {this.props.type} password here:</div>
+            <div style={{width: 350, textAlign: 'center'}}>Please practice your {this.props.pwType} password here:</div>
             <Grid
               droppedIcons={droppedIcons}
               moveIcon={this.moveIcon}

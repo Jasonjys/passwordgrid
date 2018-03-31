@@ -28,7 +28,7 @@ class Login extends Component {
     return (
       <div style={{display: 'flex', flexDirection: 'column', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
         <div style={{fontSize: 65, padding: 30}}>PASSWORD GRID</div>
-        <div>Please Enter Your Name Below:</div>
+        <div>Please enter your name below:</div>
         <TextField
           style={{height: 50}}
           hintText='First Name, Last Name'

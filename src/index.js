@@ -21,4 +21,4 @@ const rootEl = document.getElementById('root')
 ReactDOM.render(<MuiThemeProvider><App /></MuiThemeProvider>, rootEl)
 
 registerServiceWorker()
-export default firebase.firestore()
+export const firestore = firebase.firestore()
