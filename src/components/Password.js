@@ -4,18 +4,10 @@ import update from 'immutability-helper'
 import Grid from './Grid'
 import IconsContainer from './IconsContainer'
 import data from './Data'
+import RaisedButton from 'material-ui/RaisedButton'
 
 const buttonStyle = {
-  width: 100,
-  fontSize: 15,
-  border: 'none',
-  margin: 5,
-  padding: 10,
-  fontWeight: 600,
-  backgroundColor: '#33dae0',
-  color: 'white',
-  borderRadius: 6,
-  boxShadow: '2px 3px 3px 0px rgba(176,176,176,1)'
+  margin: 5
 }
 
 class Password extends Component {
@@ -229,7 +221,7 @@ class Password extends Component {
         />
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{flexDirection: 'column'}}>
-            <div>Please practice your {this.props.type} password here:</div>
+            <div style={{width: 400, textAlign: 'center'}}>Please practice your {this.props.type} password here:</div>
             <Grid
               droppedIcons={droppedIcons}
               moveIcon={this.moveIcon}
@@ -239,33 +231,29 @@ class Password extends Component {
             <div style={{textAlign: 'center', fontSize: 12, padding: 5, height: 10}}>{message}</div>
           </div>
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <button
-              style={{
-                ...buttonStyle,
-                backgroundColor: '#32c3e0'
-              }}
+            <RaisedButton
+              label='Submit'
+              style={buttonStyle}
+              backgroundColor='#32c3e0'
+              labelColor='#ffffff'
+              labelStyle={{fontSize: 15, fontWeight: 500}}
               onClick={() => this.comparePassword(this.props.password)}
-            >
-              Submit
-            </button>
-            <button
-              style={{
-                ...buttonStyle,
-                backgroundColor: '#f94d89'}}
+            />
+            <RaisedButton
+              label='Clear'
+              style={buttonStyle}
+              backgroundColor='#f94d89'
+              labelColor='#ffffff'
+              labelStyle={{fontSize: 15, fontWeight: 500}}
               onClick={this.clearGrid}
-            >
-              Clear
-            </button>
-            <button
-              style={{
-                ...buttonStyle,
-                backgroundColor: '#88bc5e',
-                width: 300
-              }}
-              onClick={this.clearGrid}
-            >
-              I am done practicing, take me to test!
-            </button>
+            />
+            <RaisedButton
+              label='I am done practicing, take me to test!'
+              style={buttonStyle}
+              labelColor='#ffffff'
+              labelStyle={{fontSize: 15, fontWeight: 500}}
+              backgroundColor='#88bc5e'
+            />
           </div>
         </div>
       </div>

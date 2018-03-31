@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import './App.css'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import GivenPassword from './components/GivenPassword'
-import Password from './components/Password'
 import Login from './components/Login'
 import data from './components/Data'
+import Practice from './components/Practice'
 
 class App extends Component {
   constructor (props) {
@@ -14,6 +13,7 @@ class App extends Component {
     this.chooseUniquePassword = this.chooseUniquePassword.bind(this)
     this.generatePassword = this.generatePassword.bind(this)
     this.handlePreviousButton = this.handlePreviousButton.bind(this)
+    this.handleNextButton = this.handleNextButton.bind(this)
     this.handleGenerateNew = this.handleGenerateNew.bind(this)
 
     const emailPassword = this.generatePassword(4)
@@ -72,35 +72,14 @@ class App extends Component {
     const {type, pw} = passwordArray[index]
     if (login) {
       return (
-        <div style={{height: '100%', width: '100%'}}>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <GivenPassword
-              passwordType={type}
-              password={pw}
-            />
-            <div>
-              <button
-                disabled={index === 0}
-                onClick={() => this.handlePreviousButton()}
-              >
-                  Previous password
-              </button>
-              <button onClick={() => this.handleGenerateNew(index, type)}>
-                  Generate new password
-              </button>
-              <button
-                disabled={index === passwordArray.length - 1}
-                onClick={() => this.handleNextButton(type)}
-              >
-                 Next password
-              </button>
-            </div>
-          </div>
-          <Password
-            type={type}
-            password={pw}
-          />
-        </div>
+        <Practice
+          type={type}
+          pw={pw}
+          index={index}
+          nextButtonFunc={this.handleNextButton}
+          previousButtonFunc={this.handlePreviousButton}
+          newPasswordFunc={this.handleGenerateNew}
+        />
       )
     } else {
       return <Login handleLogin={() => this.setState({login: true})} />
