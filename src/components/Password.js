@@ -285,21 +285,24 @@ class Password extends Component {
             backgroundColor='#32c3e0'
             labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
-            onClick={() => this.comparePassword(password)} />
+            onClick={() => this.comparePassword(password)}
+          />
           <RaisedButton
             label='Clear'
             style={buttonStyle}
             backgroundColor='#f94d89'
             labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
-            onClick={this.clearGrid} />
+            onClick={this.clearGrid}
+          />
           <RaisedButton
             label='I am done practicing, take me to test!'
             style={buttonStyle}
             labelColor='#ffffff'
             onClick={() => goToTest()}
             labelStyle={{fontSize: 15, fontWeight: 500}}
-            backgroundColor='#88bc5e' />
+            backgroundColor='#88bc5e'
+          />
         </div>)
     } else {
       return (
@@ -310,7 +313,7 @@ class Password extends Component {
             labelColor='#ffffff'
             disabled={!submitEnabled}
             labelStyle={{fontSize: 15, fontWeight: 500}}
-            onClick={() => { this.handleSubmit(password) }}
+            onClick={() => this.handleSubmit(password)}
             backgroundColor='#88bc5e'
           />
           <RaisedButton

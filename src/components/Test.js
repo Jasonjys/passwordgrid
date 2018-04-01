@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import GivenPassword from './GivenPassword'
 import Password from './Password'
 
 class Test extends Component {
@@ -29,7 +28,7 @@ class Test extends Component {
   }
 
   render () {
-    const {type, pw, index, user, nextButtonFunc, checkFinish} = this.props
+    const {type, pw, user, nextButtonFunc, checkFinish} = this.props
     return (
       <div style={{height: '100%', width: '100%'}}>
         <Password
@@ -40,7 +39,7 @@ class Test extends Component {
           totalTime={this.totalTime()}
           nextButtonFunc={nextButtonFunc}
           checkFinish={checkFinish}
-          />
+        />
       </div>
     )
   }
