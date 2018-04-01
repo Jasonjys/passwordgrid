@@ -7,6 +7,7 @@ import data from './components/Data'
 import Practice from './components/Practice'
 import Test from './components/Test'
 import EndScreen from './components/EndScreen'
+import { firestore } from './index'
 
 class App extends Component {
   constructor (props) {
@@ -79,6 +80,11 @@ class App extends Component {
   }
 
   handleGoToTest (time) {
+    const {username} = this.state
+    firestore.collection(username).doc('practice').set({
+      practiceTime: time
+    })
+
     this.setState({
       practice: false,
       practiceTime: time,
@@ -129,7 +135,7 @@ class App extends Component {
               start={testStartTime}
               nextButtonFunc={this.handleNextButton}
               checkFinish={this.checkFinish}
-              />
+            />
           )
         }
       }

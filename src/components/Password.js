@@ -24,6 +24,7 @@ class Password extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.clearGrid = this.clearGrid.bind(this)
     this.generateButtons = this.generateButtons.bind(this)
+    this.testOver = this.testOver.bind(this)
 
     const icons = this.generateIcons()
     const droppedIcons = new Array(4).fill(null)
@@ -42,6 +43,7 @@ class Password extends Component {
 
   componentDidUpdate ({pwType}) {
     if (pwType !== this.props.pwType) {
+      actionCnt = 0
       this.clearGrid()
       this.setState({
         attempts: 0,
@@ -209,13 +211,12 @@ class Password extends Component {
         submitEnabled: false
       })
       if (pwType === 'shopping') {
-        this.setState({done: true})
+        this.testOver()
       }
     } else {
       if (this.state.attempts === 2) {
         if (pwType === 'shopping') {
-          this.setState({testTime: this.props.totalTime})
-          this.props.checkFinish(true)
+          this.testOver()
         }
         this.setState({
           attempts: 0,
@@ -226,9 +227,17 @@ class Password extends Component {
     }
   }
 
+  testOver () {
+    const {user, totalTime, checkFinish} = this.props
+    firestore.collection(user).doc('test').set({
+      testTime: totalTime
+    })
+    checkFinish(true)
+  }
+
   comparePassword (password) {
-    const { droppedIcons, attempts } = this.state
-    const {user, test} = this.props
+    const {droppedIcons, attempts} = this.state
+    const {user, test, pwType} = this.props
     const type = test ? 'test' : 'practice'
 
     let identical = true
@@ -243,7 +252,7 @@ class Password extends Component {
     firestore.collection(user).doc(type).collection('actions').add({
       actionCnt: ++actionCnt,
       time: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      action: `submit ${correct ? 'correct' : 'wrong'} password`
+      action: `submit ${correct ? 'correct' : 'wrong'} ${pwType} password`
     })
 
     if (correct) {
