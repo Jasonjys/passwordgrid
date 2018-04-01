@@ -1,3 +1,8 @@
+# Passwordgrid
+
+An easy to use password system that focus on assigned random passwords with consistent password spaces. Our primary goal of usability will be the memorability of passwords, and the speed of password entry.<br>
+Users are given a 2x2 grid that filled with 4 icons as their password and they are able to unlock by placing correct icons at correct positions.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
