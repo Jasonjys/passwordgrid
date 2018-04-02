@@ -18,7 +18,7 @@ class App extends Component {
     this.switchPassword = this.switchPassword.bind(this)
     this.handleGenerateNew = this.handleGenerateNew.bind(this)
     this.handleGoToTest = this.handleGoToTest.bind(this)
-    this.checkFinish = this.checkFinish.bind(this)
+    this.testOver = this.testOver.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
 
     const emailPassword = this.generatePassword(4)
@@ -31,8 +31,7 @@ class App extends Component {
       login,
       username,
       index: 0,
-      finish: false,
-      practiceTime: 0,
+      testFinished: false,
       practice: true,
       passwordArray: [
         {pw: emailPassword, type: 'email'},
@@ -82,37 +81,32 @@ class App extends Component {
     })
   }
 
-  handleGoToTest (time) {
-    console.log(time)
+  handleGoToTest (timeSpent) {
     const {username} = this.state
-    firestore.collection(username).doc('practice').set({
-      practiceTime: time
-    })
+    firestore.collection(username).doc('practice').set({timeSpent})
 
     this.setState({
       index: 0,
-      practice: false,
-      practiceTime: time
+      practice: false
     })
   }
 
-  checkFinish (done) {
-    this.setState({finish: done})
+  testOver (timeSpent) {
+    const {username} = this.state
+    this.setState({testFinished: true})
+    firestore.collection(username).doc('test').set({timeSpent})
   }
 
   handleLogin (username) {
     this.setState({
-      startTime: Date.now(),
       username,
       login: true
     })
   }
 
   render () {
-    const {index, passwordArray, login, practice, finish, username, startTime} = this.state
+    const {index, passwordArray, login, practice, testFinished, username} = this.state
     const {type, pw} = passwordArray[index]
-
-    console.log('rerender app')
     if (login) {
       if (practice) {
         return (
@@ -120,14 +114,13 @@ class App extends Component {
             pw={pw}
             type={type}
             user={username}
-            start={startTime}
             switchPassword={this.switchPassword}
             generateNew={this.handleGenerateNew}
             goToTestFunc={this.handleGoToTest}
           />
         )
       } else {
-        if (finish) {
+        if (testFinished) {
           return <EndScreen />
         } else {
           return (
@@ -135,9 +128,8 @@ class App extends Component {
               pw={pw}
               type={type}
               user={username}
-              start={Date.now()}
               nextButtonFunc={() => this.setState({index: index + 1})}
-              checkFinish={this.checkFinish}
+              testOver={this.testOver}
             />
           )
         }

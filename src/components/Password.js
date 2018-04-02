@@ -25,7 +25,6 @@ class Password extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.clearGrid = this.clearGrid.bind(this)
     this.generateButtons = this.generateButtons.bind(this)
-    this.testOver = this.testOver.bind(this)
 
     const icons = this.generateIcons()
     const droppedIcons = new Array(4).fill(null)
@@ -205,19 +204,19 @@ class Password extends Component {
   }
 
   handleSubmit (password) {
-    const {pwType} = this.props
+    const {pwType, testOver} = this.props
     if (this.comparePassword(password)) {
       this.setState({
         nextEnabled: true,
         submitEnabled: false
       })
       if (pwType === 'shopping') {
-        this.testOver()
+        testOver()
       }
     } else {
       if (this.state.attempts === 2) {
         if (pwType === 'shopping') {
-          this.testOver()
+          testOver()
         }
         this.setState({
           attempts: 0,
@@ -226,14 +225,6 @@ class Password extends Component {
         })
       }
     }
-  }
-
-  testOver () {
-    const {user, checkFinish, calculateTime} = this.props
-    firestore.collection(user).doc('test').set({
-      testTime: calculateTime()
-    })
-    checkFinish(true)
   }
 
   comparePassword (password) {
@@ -285,7 +276,7 @@ class Password extends Component {
 
   generateButtons () {
     const {submitEnabled, nextEnabled} = this.state
-    const {password, test, pwType, goToTest, nextButtonFunc} = this.props
+    const {password, test, pwType, testStart, nextButtonFunc} = this.props
     if (!test) {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
@@ -310,7 +301,7 @@ class Password extends Component {
             label='I am done practicing, take me to test!'
             style={buttonStyle}
             labelColor='#ffffff'
-            onClick={() => goToTest()}
+            onClick={() => testStart()}
             labelStyle={{fontSize: 15, fontWeight: 500}}
             backgroundColor='#88bc5e'
           />
