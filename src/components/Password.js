@@ -6,6 +6,7 @@ import Grid from './Grid'
 import data from './Data'
 import { firestore } from '../index'
 import IconsContainer from './IconsContainer'
+import GivenPassword from './GivenPassword'
 import RaisedButton from 'material-ui/RaisedButton'
 
 const buttonStyle = {
@@ -287,7 +288,7 @@ class Password extends Component {
     const {password, test, pwType, goToTest, nextButtonFunc} = this.props
     if (!test) {
       return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <RaisedButton
             label='Submit'
             style={buttonStyle}
@@ -315,7 +316,7 @@ class Password extends Component {
         </div>)
     } else {
       return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <RaisedButton
             label='SUBMIT'
             style={{...buttonStyle, width: 110}}
@@ -323,7 +324,7 @@ class Password extends Component {
             disabled={!submitEnabled}
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={() => this.handleSubmit(password)}
-            backgroundColor='#88bc5e'
+            backgroundColor='#32c3e0'
           />
           <RaisedButton
             label='Clear'
@@ -337,7 +338,7 @@ class Password extends Component {
           <RaisedButton
             label='NEXT PASSWORD'
             style={{...buttonStyle}}
-            backgroundColor='#32c3e0'
+            backgroundColor='#88bc5e'
             labelColor='#ffffff'
             disabled={!nextEnabled || (pwType === 'shopping')}
             onClick={() => nextButtonFunc()}
@@ -350,7 +351,7 @@ class Password extends Component {
 
   render () {
     const {country, landmark, food, animal, droppedIcons, message} = this.state
-    const {test, pwType} = this.props
+    const {test, pwType, password, switchPassword, generateNew} = this.props
     return (
       <div style={{maxHeight: '80%', width: '100%'}}>
         <IconsContainer
@@ -377,11 +378,21 @@ class Password extends Component {
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
-        <div style={{display: 'flex', padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{display: 'flex', width: '100%', padding: 15, justifyContent: 'center'}}>
+          {!test
+            ? <GivenPassword
+              passwordType={pwType}
+              icons={password}
+              switchPassword={switchPassword}
+              generateNew={generateNew}
+              />
+            : null
+          }
           <div style={{flexDirection: 'column'}}>
-            <div style={{width: 350, textAlign: 'center'}}>Please {test ? 'enter' : 'practice'} {pwType} password here:</div>
             <Grid
-              droppedIcons={droppedIcons}
+              fixed={false}
+              icons={droppedIcons}
+              passwordType={pwType}
               moveIcon={this.moveIcon}
               selectIcon={this.selectIcon}
               onDrop={this.dropIcon}
@@ -390,7 +401,6 @@ class Password extends Component {
               style={{
                 textAlign: 'center',
                 fontSize: 12,
-                padding: 5,
                 height: 10,
                 color: message === 'Success!!' ? '#00a023' : 'red'
               }}

@@ -6,9 +6,6 @@ class Test extends Component {
     super(props)
     this.calculateTime = this.calculateTime.bind(this)
     this.totalTime = this.totalTime.bind(this)
-    this.state = {
-      time: 0
-    }
   }
   componentDidMount () {
     this.timer = setInterval(this.calculateTime, 50)
@@ -19,11 +16,11 @@ class Test extends Component {
   }
 
   calculateTime () {
-    this.setState({time: ((new Date() - this.props.start) / 10).toFixed(1)})
+    this.time = ((new Date() - this.props.start) / 10).toFixed(1)
   }
 
   totalTime () {
-    var elapsed = Math.round(this.state.time / 10)
+    var elapsed = Math.round(this.time / 10)
     return (elapsed / 10).toFixed(1)
   }
 

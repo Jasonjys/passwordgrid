@@ -113,6 +113,7 @@ class Icon extends Component {
       icon,
       height,
       width,
+      fixed,
       dropped,
       category,
       isDragging,
@@ -122,21 +123,30 @@ class Icon extends Component {
     const SpecificIcon = components[icon]
     const opacity = isDragging ? 0 : 1
 
-    return connectDragSource(
-      connectDropTarget(
-        <div
-          style={{...style, opacity}}
-          onClick={() => {
-            if (this.props.selectIcon) {
-              this.props.selectIcon({index, id, icon, category, dropped})
-            }
-          }}
-        >
-          <SpecificIcon style={{cursor: 'move'}} height={height} width={width} />
+    if (fixed) {
+      return (
+        <div style={{...style, opacity}}>
+          <SpecificIcon height={height} width={width} />
           <div style={textStyle}>{icon}</div>
         </div>
       )
-    )
+    } else {
+      return connectDragSource(
+        connectDropTarget(
+          <div
+            style={{...style, opacity}}
+            onClick={() => {
+              if (this.props.selectIcon) {
+                this.props.selectIcon({index, id, icon, category, dropped})
+              }
+            }}
+          >
+            <SpecificIcon style={{cursor: 'move'}} height={height} width={width} />
+            <div style={textStyle}>{icon}</div>
+          </div>
+        )
+      )
+    }
   }
 }
 

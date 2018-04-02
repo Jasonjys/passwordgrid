@@ -6,15 +6,21 @@ const defaultStyle = {
   display: 'flex',
   flexWrap: 'wrap',
   height: 160,
-  width: 160,
-  margin: 'auto'
+  width: 160
+}
+
+const textStyle = {
+  textAlign: 'center',
+  padding: 5,
+  width: 250
 }
 
 class Grid extends Component {
-  renderSquare (i, icon) {
+  renderSquare (i, icon, fixed) {
     const piece = icon
       ? <Icon
         dropped
+        fixed={fixed}
         index={i}
         key={icon.id}
         id={icon.id}
@@ -40,16 +46,19 @@ class Grid extends Component {
   }
 
   render () {
-    const { droppedIcons, passwordType, style } = this.props
+    const { icons, passwordType, fixed } = this.props
     const squares = []
 
-    droppedIcons.forEach((droppedIcon, index) => {
-      squares.push(this.renderSquare(index, droppedIcon))
+    icons.forEach((droppedIcon, index) => {
+      squares.push(this.renderSquare(index, droppedIcon, fixed))
     })
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: '15%'}}>
-        {passwordType ? <div style={{padding: 5}}>{`${passwordType} password`}</div> : null}
-        <div style={style || defaultStyle}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 5}}>
+        {fixed
+          ? <div style={textStyle}>{`Given ${passwordType} password`}</div>
+          : <div style={textStyle}>{`Unlock ${passwordType} password here:`}</div>
+        }
+        <div style={defaultStyle}>
           {squares}
         </div>
       </div>

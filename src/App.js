@@ -15,8 +15,7 @@ class App extends Component {
 
     this.chooseUniquePassword = this.chooseUniquePassword.bind(this)
     this.generatePassword = this.generatePassword.bind(this)
-    this.handlePreviousButton = this.handlePreviousButton.bind(this)
-    this.handleNextButton = this.handleNextButton.bind(this)
+    this.switchPassword = this.switchPassword.bind(this)
     this.handleGenerateNew = this.handleGenerateNew.bind(this)
     this.handleGoToTest = this.handleGoToTest.bind(this)
     this.checkFinish = this.checkFinish.bind(this)
@@ -60,16 +59,21 @@ class App extends Component {
     return random
   }
 
-  handlePreviousButton () {
-    this.setState({index: this.state.index - 1})
-  }
-
-  handleNextButton () {
-    this.setState({index: this.state.index + 1})
-  }
-
-  handleGenerateNew (index, type) {
+  switchPassword (type) {
     const {passwordArray} = this.state
+    const index = passwordArray.findIndex((item) => {
+      return item.type === type
+    })
+
+    this.setState({index})
+  }
+
+  handleGenerateNew (type) {
+    const {passwordArray} = this.state
+    const index = passwordArray.findIndex((item) => {
+      return item.type === type
+    })
+
     this.setState({
       passwordArray: [
         ...passwordArray.slice(0, index),
@@ -86,6 +90,7 @@ class App extends Component {
     })
 
     this.setState({
+      index: 0,
       practice: false,
       practiceTime: time,
       testStartTime: Date.now()
@@ -113,11 +118,9 @@ class App extends Component {
           <Practice
             pw={pw}
             type={type}
-            index={index}
             user={username}
-            nextButtonFunc={this.handleNextButton}
-            previousButtonFunc={this.handlePreviousButton}
-            newPasswordFunc={this.handleGenerateNew}
+            switchPassword={this.switchPassword}
+            generateNew={this.handleGenerateNew}
             goToTestFunc={this.handleGoToTest}
             start={Date.now()}
           />
@@ -131,7 +134,6 @@ class App extends Component {
               pw={pw}
               user={username}
               type={type}
-              index={index}
               start={testStartTime}
               nextButtonFunc={this.handleNextButton}
               checkFinish={this.checkFinish}
