@@ -135,7 +135,7 @@ class App extends Component {
               user={username}
               type={type}
               start={testStartTime}
-              nextButtonFunc={this.handleNextButton}
+              nextButtonFunc={() => this.setState({index: index + 1})}
               checkFinish={this.checkFinish}
             />
           )
