@@ -27,6 +27,7 @@ class Practice extends Component {
 
   render () {
     const {type, pw, user, goToTestFunc, switchPassword, generateNew} = this.props
+    console.log(this.props.start)
     return (
       <div style={{height: '100%', width: '100%'}}>
         <Password

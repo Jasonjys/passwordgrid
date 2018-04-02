@@ -83,6 +83,7 @@ class App extends Component {
   }
 
   handleGoToTest (time) {
+    console.log(time)
     const {username} = this.state
     firestore.collection(username).doc('practice').set({
       practiceTime: time
@@ -101,15 +102,17 @@ class App extends Component {
 
   handleLogin (username) {
     this.setState({
+      startTime: Date.now(),
       username,
       login: true
     })
   }
 
   render () {
-    const {index, passwordArray, login, practice, finish, username} = this.state
+    const {index, passwordArray, login, practice, finish, username, startTime} = this.state
     const {type, pw} = passwordArray[index]
 
+    console.log('rerender app')
     if (login) {
       if (practice) {
         return (
@@ -117,7 +120,7 @@ class App extends Component {
             pw={pw}
             type={type}
             user={username}
-            start={Date.now()}
+            start={startTime}
             switchPassword={this.switchPassword}
             generateNew={this.handleGenerateNew}
             goToTestFunc={this.handleGoToTest}

@@ -6,6 +6,10 @@ class Test extends Component {
     super(props)
     this.calculateTime = this.calculateTime.bind(this)
     this.totalTime = this.totalTime.bind(this)
+
+    this.state = {
+      start: Date.now()
+    }
   }
   componentDidMount () {
     this.timer = setInterval(this.calculateTime, 50)
