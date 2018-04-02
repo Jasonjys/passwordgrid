@@ -12,7 +12,7 @@ const defaultStyle = {
 const textStyle = {
   textAlign: 'center',
   padding: 5,
-  width: 250
+  width: 235
 }
 
 class Grid extends Component {

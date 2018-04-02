@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Grid from './Grid'
 import RaisedButton from 'material-ui/RaisedButton'
+import Toggle from 'material-ui/Toggle'
 
 const buttonStyle = {
-  margin: 5
+  margin: 2.5
 }
 
 const passwordArray = [
@@ -13,7 +14,15 @@ const passwordArray = [
 ]
 
 class GivenPassword extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      hide: false
+    }
+  }
+
   render () {
+    const { hide } = this.state
     const { passwordType, icons, switchPassword, generateNew } = this.props
     return (
       <div style={{display: 'flex'}}>
@@ -35,12 +44,19 @@ class GivenPassword extends Component {
             backgroundColor='#f94d89'
             onClick={() => generateNew(passwordType)}
           />
+          <Toggle
+            label={hide ? 'Unhide password' : 'Hide password'}
+            onToggle={() => this.setState({hide: !hide})}
+          />
         </div>
-        <Grid
-          fixed
-          passwordType={passwordType}
-          icons={icons}
-        />
+        {!hide
+          ? <Grid
+            fixed
+            passwordType={passwordType}
+            icons={icons}
+            />
+          : null
+        }
       </div>
     )
   }
