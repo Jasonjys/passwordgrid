@@ -36,10 +36,10 @@ class Password extends Component {
       actions,
       droppedIcons,
       attempts: 0,
-      testTime: 0,
       submitEnabled: true,
       nextEnabled: false,
       dialogOpen: false,
+      lastAttempt: false,
       ...icons
     }
   }
@@ -140,16 +140,6 @@ class Password extends Component {
         })
       )
     }
-
-    if (!sourceDropped && !draggingIntoGrid) {
-      this.setState(
-        update(this.state, {
-          [category]: {
-            $splice: [[dragIndex, 1], [hoverIndex, 0, dragIcon]]
-          }
-        })
-      )
-    }
   }
 
   dropIcon (index, icon) {
@@ -207,19 +197,24 @@ class Password extends Component {
   }
 
   handleSubmit (password) {
-    const {pwType, testOver} = this.props
-    if (this.comparePassword(password)) {
+    const {isLastPW, user, test, pwType} = this.props
+    const {attempts} = this.state
+    const type = test ? 'test' : 'practice'
+    const isCorrect = this.comparePassword(password)
+
+    if (isCorrect) {
       this.setState({
         nextEnabled: true,
-        submitEnabled: false
+        submitEnabled: false,
+        message: 'Success!!'
       })
-      if (pwType === 'shopping') {
-        testOver()
+      if (isLastPW) {
+        this.setState({lastAttempt: true})
       }
     } else {
-      if (this.state.attempts === 2) {
-        if (pwType === 'shopping') {
-          testOver()
+      if (attempts === 2) {
+        if (isLastPW) {
+          this.setState({lastAttempt: true})
         }
         this.setState({
           attempts: 0,
@@ -227,33 +222,6 @@ class Password extends Component {
           nextEnabled: true
         })
       }
-    }
-  }
-
-  comparePassword (password) {
-    const {droppedIcons, attempts} = this.state
-    const {user, test, pwType} = this.props
-    const type = test ? 'test' : 'practice'
-
-    let identical = true
-    droppedIcons.forEach((icon, i) => {
-      if (!_.isEqual(icon, password[i])) {
-        identical = false
-      }
-    })
-
-    const correct = password.length === droppedIcons.length && identical
-
-    firestore.collection(user).doc(type).collection('actions').add({
-      actionCnt: ++actionCnt,
-      time: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      action: `submit ${correct ? 'correct' : 'wrong'} ${pwType} password`
-    })
-
-    if (correct) {
-      this.setState({message: 'Success!!'})
-      return true
-    } else {
       if (test) {
         this.setState({
           attempts: attempts + 1,
@@ -262,8 +230,29 @@ class Password extends Component {
       } else {
         this.setState({message: 'Wrong Password'})
       }
-      return false
     }
+
+    firestore.collection(user).doc(type).update({
+      [pwType]: `${isCorrect ? 'success' : 'failure'}`,
+      [`${pwType}Attempts`]: attempts + 1
+    })
+
+    firestore.collection(user).doc(type).collection('actions').add({
+      actionCnt: ++actionCnt,
+      time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      action: `submit ${isCorrect ? 'correct' : 'wrong'} ${pwType} password`
+    })
+  }
+
+  comparePassword (password) {
+    const {droppedIcons} = this.state
+    let identical = true
+    droppedIcons.forEach((icon, i) => {
+      if (!_.isEqual(icon, password[i])) {
+        identical = false
+      }
+    })
+    return password.length === droppedIcons.length && identical
   }
 
   clearGrid () {
@@ -278,8 +267,8 @@ class Password extends Component {
   }
 
   generateButtons () {
-    const {submitEnabled, nextEnabled, dialogOpen} = this.state
-    const {password, test, pwType, testStart, nextButtonFunc} = this.props
+    const {submitEnabled, nextEnabled, dialogOpen, lastAttempt} = this.state
+    const {password, test, testStart, testOver, nextButtonFunc} = this.props
     const actions = [
       <FlatButton
         primary
@@ -301,7 +290,7 @@ class Password extends Component {
             style={buttonStyle}
             labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
-            onClick={() => this.comparePassword(password)}
+            onClick={() => this.handleSubmit(password)}
           />
           <RaisedButton
             secondary
@@ -331,6 +320,19 @@ class Password extends Component {
         </div>
       )
     } else {
+      if (lastAttempt) {
+        return (
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <RaisedButton
+              primary
+              label='End Test!'
+              labelColor='#ffffff'
+              labelStyle={{fontSize: 15, fontWeight: 500}}
+              onClick={() => testOver()}
+            />
+          </div>
+        )
+      }
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <RaisedButton
@@ -356,7 +358,7 @@ class Password extends Component {
             style={{...buttonStyle}}
             backgroundColor='#88bc5e'
             labelColor='#ffffff'
-            disabled={!nextEnabled || (pwType === 'shopping')}
+            disabled={!nextEnabled}
             onClick={() => nextButtonFunc()}
             labelStyle={{fontSize: 15, fontWeight: 500}}
           />

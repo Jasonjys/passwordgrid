@@ -16,7 +16,7 @@ class Test extends Component {
   }
 
   render () {
-    const {type, pw, user, nextButtonFunc} = this.props
+    const {type, pw, user, isLastPW, nextButtonFunc} = this.props
     return (
       <div style={{height: '100%', width: '100%'}}>
         <Password
@@ -24,6 +24,7 @@ class Test extends Component {
           user={user}
           pwType={type}
           password={pw}
+          isLastPW={isLastPW}
           calculateTime={this.calculateTime}
           nextButtonFunc={nextButtonFunc}
           testOver={this.testOver}
