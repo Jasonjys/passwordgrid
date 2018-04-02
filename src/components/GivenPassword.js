@@ -45,7 +45,7 @@ class GivenPassword extends Component {
             onClick={() => generateNew(passwordType)}
           />
           <Toggle
-            label={hide ? 'Unhide password' : 'Hide password'}
+            label='Hide password'
             onToggle={() => this.setState({hide: !hide})}
           />
         </div>
