@@ -1,3 +1,7 @@
+/* 
+  This file is used for export a array of icons data, each object in this array contains id,
+  the name and the category of a icon. The total length of this array is 40 since there are 40 icons.
+*/
 export default [
   {
     id: '0',

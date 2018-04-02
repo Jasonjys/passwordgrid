@@ -1,3 +1,12 @@
+/* 
+    This component is used as the grid containing the given passwords in the password practice session.
+    The type of the passwords, the given passwords, and functions of switching passwords and generating new
+  passwords are all passed to this component as props. Therefore, the buttons that allow users to switch between
+  different passwords and generate new passwords are rendered in this component.
+    This component also renders a toggle component, allowing users to hide or show the given password.
+    If the given passwords is shown, this component will render the grid component with the given icons that passed
+  by its parent.
+*/
 import React, { Component } from 'react'
 import Grid from './Grid'
 import RaisedButton from 'material-ui/RaisedButton'
