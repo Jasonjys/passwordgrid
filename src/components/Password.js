@@ -8,6 +8,8 @@ import { firestore } from '../index'
 import IconsContainer from './IconsContainer'
 import GivenPassword from './GivenPassword'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
 
 const buttonStyle = {
   margin: 5
@@ -37,6 +39,7 @@ class Password extends Component {
       testTime: 0,
       submitEnabled: true,
       nextEnabled: false,
+      dialogOpen: false,
       ...icons
     }
   }
@@ -275,8 +278,20 @@ class Password extends Component {
   }
 
   generateButtons () {
-    const {submitEnabled, nextEnabled} = this.state
+    const {submitEnabled, nextEnabled, dialogOpen} = this.state
     const {password, test, pwType, testStart, nextButtonFunc} = this.props
+    const actions = [
+      <FlatButton
+        primary
+        label='Cancel'
+        onClick={() => this.setState({dialogOpen: false})}
+      />,
+      <FlatButton
+        primary
+        label='Go to test'
+        onClick={() => testStart()}
+      />
+    ]
     if (!test) {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
@@ -301,11 +316,20 @@ class Password extends Component {
             label='I am done practicing, take me to test!'
             style={buttonStyle}
             labelColor='#ffffff'
-            onClick={() => testStart()}
+            onClick={() => this.setState({dialogOpen: true})}
             labelStyle={{fontSize: 15, fontWeight: 500}}
             backgroundColor='#88bc5e'
           />
-        </div>)
+          <Dialog
+            actions={actions}
+            modal={false}
+            open={dialogOpen}
+            onRequestClose={() => this.setState({dialogOpen: false})}
+          >
+            You cannot view your passwords during the test. Are you sure you want to proceed?
+          </Dialog>
+        </div>
+      )
     } else {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
