@@ -229,9 +229,9 @@ class Password extends Component {
   }
 
   testOver () {
-    const {user, totalTime, checkFinish} = this.props
+    const {user, checkFinish, calculateTime} = this.props
     firestore.collection(user).doc('test').set({
-      testTime: totalTime
+      testTime: calculateTime()
     })
     checkFinish(true)
   }

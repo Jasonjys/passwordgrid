@@ -5,26 +5,14 @@ class Test extends Component {
   constructor (props) {
     super(props)
     this.calculateTime = this.calculateTime.bind(this)
-    this.totalTime = this.totalTime.bind(this)
-
+    
     this.state = {
       start: Date.now()
     }
   }
-  componentDidMount () {
-    this.timer = setInterval(this.calculateTime, 50)
-  }
-
-  componentWillUnmount () {
-    clearInterval(this.timer)
-  }
 
   calculateTime () {
-    this.time = ((new Date() - this.props.start) / 10).toFixed(1)
-  }
-
-  totalTime () {
-    var elapsed = Math.round(this.time / 10)
+    var elapsed = Math.round(((new Date() - this.state.start) / 10).toFixed(1) / 10)
     return (elapsed / 10).toFixed(1)
   }
 
@@ -37,7 +25,7 @@ class Test extends Component {
           user={user}
           pwType={type}
           password={pw}
-          totalTime={this.totalTime()}
+          calculateTime={this.calculateTime}
           nextButtonFunc={nextButtonFunc}
           checkFinish={checkFinish}
         />
