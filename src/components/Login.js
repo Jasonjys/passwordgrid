@@ -36,8 +36,10 @@ class Login extends Component {
           onChange={(evt, text) => this.setState({text})}
         />
         <RaisedButton
+          primary
+          label='START!'
           style={{marginTop: 20}}
-          backgroundColor='#2ab6f7' label='START!' labelColor='#ffffff'
+          labelColor='#ffffff'
           onClick={this.handleSubmit}
         />
       </div>

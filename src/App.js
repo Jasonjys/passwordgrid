@@ -34,7 +34,6 @@ class App extends Component {
       finish: false,
       practiceTime: 0,
       practice: true,
-      testStartTime: 0,
       passwordArray: [
         {pw: emailPassword, type: 'email'},
         {pw: bankPassword, type: 'banking'},
@@ -92,8 +91,7 @@ class App extends Component {
     this.setState({
       index: 0,
       practice: false,
-      practiceTime: time,
-      testStartTime: Date.now()
+      practiceTime: time
     })
   }
 
@@ -109,7 +107,7 @@ class App extends Component {
   }
 
   render () {
-    const {index, passwordArray, login, practice, testStartTime, finish, username} = this.state
+    const {index, passwordArray, login, practice, finish, username} = this.state
     const {type, pw} = passwordArray[index]
 
     if (login) {
@@ -119,10 +117,10 @@ class App extends Component {
             pw={pw}
             type={type}
             user={username}
+            start={Date.now()}
             switchPassword={this.switchPassword}
             generateNew={this.handleGenerateNew}
             goToTestFunc={this.handleGoToTest}
-            start={Date.now()}
           />
         )
       } else {
@@ -132,9 +130,9 @@ class App extends Component {
           return (
             <Test
               pw={pw}
-              user={username}
               type={type}
-              start={testStartTime}
+              user={username}
+              start={Date.now()}
               nextButtonFunc={() => this.setState({index: index + 1})}
               checkFinish={this.checkFinish}
             />

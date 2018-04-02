@@ -290,14 +290,15 @@ class Password extends Component {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <RaisedButton
+            primary
             label='Submit'
             style={buttonStyle}
-            backgroundColor='#32c3e0'
             labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={() => this.comparePassword(password)}
           />
           <RaisedButton
+            secondary
             label='Clear'
             style={buttonStyle}
             backgroundColor='#f94d89'
@@ -318,18 +319,18 @@ class Password extends Component {
       return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <RaisedButton
+            primary
             label='SUBMIT'
             style={{...buttonStyle, width: 110}}
             labelColor='#ffffff'
             disabled={!submitEnabled}
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={() => this.handleSubmit(password)}
-            backgroundColor='#32c3e0'
           />
           <RaisedButton
+            secondary
             label='Clear'
             style={{...buttonStyle, width: 110}}
-            backgroundColor='#f94d89'
             labelColor='#ffffff'
             disabled={!submitEnabled}
             labelStyle={{fontSize: 15, fontWeight: 500}}
