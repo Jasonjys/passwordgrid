@@ -27,14 +27,32 @@ const passwordArray = [
 class GivenPassword extends Component {
   constructor (props) {
     super(props)
+    this.renderGrid = this.renderGrid.bind(this)
+
     this.state = {
       hide: false
     }
   }
 
+  renderGrid () {
+    const {passwordType, icons} = this.props
+    return (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <Grid
+          fixed
+          passwordType={passwordType}
+          icons={icons}
+        />
+        <div style={{fontSize: 10, textAlign: 'center', height: 25, width: 220}}>
+          Hint: {generateHint(icons)}
+        </div>
+      </div>
+    )
+  }
+
   render () {
     const { hide } = this.state
-    const { passwordType, icons, switchPassword, generateNew } = this.props
+    const { passwordType, switchPassword, generateNew } = this.props
     return (
       <div style={{display: 'flex'}}>
         <div style={{display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center'}}>
@@ -60,19 +78,7 @@ class GivenPassword extends Component {
             onToggle={() => this.setState({hide: !hide})}
           />
         </div>
-        {!hide
-          ? <div>
-            <Grid
-              fixed
-              passwordType={passwordType}
-              icons={icons}
-              />
-            <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
-                Hint: {generateHint(icons)}
-            </div>
-          </div>
-          : null
-        }
+        {!hide ? this.renderGrid() : null}
       </div>
     )
   }
