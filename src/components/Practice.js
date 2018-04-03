@@ -28,10 +28,10 @@ class Practice extends Component {
           switchPassword={switchPassword}
           generateNew={generateNew}
         />
-        <div style={{display: 'flex', flexDirection: 'column', width: '100%', padding: 20}}>
+        <div style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '0px 30px'}}>
           <h3 style={{marginTop: 10, marginBottom: 8}}>Guide:</h3>
           <p style={{margin: 0}}>You are given three sets of passwords: email, banking, and shopping.</p>
-          <p style={{margin: 0}}>Please try to memorize them. You can proceed to the test once you memorized them by pressing 'I AM DONE PRACTICING,
+          <p style={{margin: 0}}>Please try to memorize them. You can proceed to the test once you memorized them by clicking 'I AM DONE PRACTICING,
             TAKE ME TO THE TEST'.</p>
           <h4 style={{marginTop: 10, marginBottom: 8}}>TIPS:</h4>
           <p style={{margin: 0}}>1. You can regenerate new password by clicking on the 'REGENERATE' button if you do not like the current given password.</p>
