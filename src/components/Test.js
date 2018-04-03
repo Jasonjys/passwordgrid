@@ -1,3 +1,7 @@
+/* 
+    This component is used for rendering the password testing session, allowing user to test their password.
+    The testOver() function is for recording the total time that users spend on testing password.
+*/
 import React, { Component } from 'react'
 import Password from './Password'
 

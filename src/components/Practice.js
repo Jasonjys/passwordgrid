@@ -1,3 +1,8 @@
+/* 
+    This component is used to render the practice session, allowing user to practice three set of password, it will
+  render the Password component.
+    The testStart() function is used to calculate the time that user spend on practicing.
+*/
 import React, { Component } from 'react'
 import Password from './Password'
 

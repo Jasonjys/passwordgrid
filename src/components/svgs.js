@@ -1,3 +1,6 @@
+/* 
+    This file is for storing 40 svgs.
+*/
 import React from 'react'
 
 const France01 = props => (
