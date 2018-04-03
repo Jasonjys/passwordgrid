@@ -41,6 +41,12 @@ class Login extends Component {
           hintText='First Name, Last Name'
           errorText={this.state.error ? 'This field is required' : ''}
           onChange={(evt, text) => this.setState({text})}
+          onKeyPress={(evt) => {
+            if (evt.key === 'Enter') {
+              this.handleSubmit()
+              evt.preventDefault()
+            }
+          }}
         />
         <RaisedButton
           primary
