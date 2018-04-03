@@ -8,11 +8,10 @@ import { firestore } from '../index'
 import IconsContainer from './IconsContainer'
 import GivenPassword from './GivenPassword'
 import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import Dialog from 'material-ui/Dialog'
 
 const buttonStyle = {
-  margin: 5
+  margin: 5,
+  width: 100
 }
 
 let actionCnt = 0
@@ -38,7 +37,6 @@ class Password extends Component {
       attempts: 0,
       submitEnabled: true,
       nextEnabled: false,
-      dialogOpen: false,
       lastAttempt: false,
       ...icons
     }
@@ -267,27 +265,16 @@ class Password extends Component {
   }
 
   generateButtons () {
-    const {submitEnabled, nextEnabled, dialogOpen, lastAttempt} = this.state
-    const {password, test, testStart, testOver, nextButtonFunc} = this.props
-    const actions = [
-      <FlatButton
-        primary
-        label='Cancel'
-        onClick={() => this.setState({dialogOpen: false})}
-      />,
-      <FlatButton
-        primary
-        label='Go to test'
-        onClick={() => testStart()}
-      />
-    ]
+    const {submitEnabled, nextEnabled, lastAttempt} = this.state
+    const {password, test, testOver, nextButtonFunc} = this.props
     if (!test) {
       return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <RaisedButton
             primary
-            label='Submit'
+            label='Validate'
             style={buttonStyle}
+            buttonStyle={{width: 100}}
             labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={() => this.handleSubmit(password)}
@@ -296,27 +283,12 @@ class Password extends Component {
             secondary
             label='Clear'
             style={buttonStyle}
+            buttonStyle={{width: 100}}
             backgroundColor='#f94d89'
             labelColor='#ffffff'
             labelStyle={{fontSize: 15, fontWeight: 500}}
             onClick={this.clearGrid}
           />
-          <RaisedButton
-            label='I am done practicing, take me to test!'
-            style={buttonStyle}
-            labelColor='#ffffff'
-            onClick={() => this.setState({dialogOpen: true})}
-            labelStyle={{fontSize: 15, fontWeight: 500}}
-            backgroundColor='#88bc5e'
-          />
-          <Dialog
-            actions={actions}
-            modal={false}
-            open={dialogOpen}
-            onRequestClose={() => this.setState({dialogOpen: false})}
-          >
-            You cannot view your passwords during the test. Are you sure you want to proceed?
-          </Dialog>
         </div>
       )
     } else {
@@ -338,7 +310,7 @@ class Password extends Component {
           <RaisedButton
             primary
             label='SUBMIT'
-            style={{...buttonStyle, width: 110}}
+            style={{...buttonStyle}}
             labelColor='#ffffff'
             disabled={!submitEnabled}
             labelStyle={{fontSize: 15, fontWeight: 500}}
@@ -347,7 +319,7 @@ class Password extends Component {
           <RaisedButton
             secondary
             label='Clear'
-            style={{...buttonStyle, width: 110}}
+            style={{...buttonStyle}}
             labelColor='#ffffff'
             disabled={!submitEnabled}
             labelStyle={{fontSize: 15, fontWeight: 500}}
@@ -355,7 +327,7 @@ class Password extends Component {
           />
           <RaisedButton
             label='NEXT PASSWORD'
-            style={{...buttonStyle}}
+            style={{margin: 5}}
             backgroundColor='#88bc5e'
             labelColor='#ffffff'
             disabled={!nextEnabled}
