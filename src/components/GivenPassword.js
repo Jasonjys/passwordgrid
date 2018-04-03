@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Grid from './Grid'
 import RaisedButton from 'material-ui/RaisedButton'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Toggle from 'material-ui/Toggle'
 
 const buttonStyle = {
@@ -38,10 +39,10 @@ class GivenPassword extends Component {
             />
           ))}
           <RaisedButton
-            label='generate new'
-            labelColor='#ffffff'
-            style={buttonStyle}
-            backgroundColor='#f94d89'
+            label='Regenerate'
+            labelPosition='before'
+            icon={<Refresh />}
+            style={{...buttonStyle}}
             onClick={() => generateNew(passwordType)}
           />
           <Toggle
