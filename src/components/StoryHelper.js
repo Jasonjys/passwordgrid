@@ -18,7 +18,7 @@ export default (pw) => {
     }
   })
   if (country.length || animal.length) {
-    if(!animal.length){
+    if (!animal.length) {
       hint = `The people in ${concatWords(country)}`
     } else {
       hint = `${concatWords(country)} ${concatWords(animal)}`
@@ -32,10 +32,10 @@ export default (pw) => {
     } else {
       hint = `${hint} ate ${concatWords(food)} at ${concatWords(landmark)}`
     }
-  } else if (!(country.length && animal.length)){
-    if(!food.length){
+  } else if (!(country.length && animal.length)) {
+    if (!food.length) {
       hint = `I chilled at ${concatWords(landmark)}`
-    } else if(!landmark.length){
+    } else if (!landmark.length) {
       hint = `I ate ${concatWords(food)}`
     } else {
       hint = `I ate ${concatWords(food)} at ${concatWords(landmark)}`
@@ -52,12 +52,12 @@ const pluralizes = (array) => {
 
 const concatWords = (array) => {
   console.log(array)
-  let word = ""
-  if (array.length === 1){
+  let word = ''
+  if (array.length === 1) {
     word = array[0]
   } else {
-    array.forEach((item, key)=>{
-      if (key === array.length -1) {
+    array.forEach((item, key) => {
+      if (key === array.length - 1) {
         word = `${word} ${item}`
       } else {
         word = `${word} ${item} and`

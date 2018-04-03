@@ -1,4 +1,4 @@
-/* 
+/*
     This component is used as the grid containing the given passwords in the password practice session.
     The type of the passwords, the given passwords, and functions of switching passwords and generating new
   passwords are all passed to this component as props. Therefore, the buttons that allow users to switch between
@@ -62,15 +62,15 @@ class GivenPassword extends Component {
         </div>
         {!hide
           ? <div>
-              <Grid
+            <Grid
               fixed
               passwordType={passwordType}
               icons={icons}
               />
-              <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
+            <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
                 Hint: {generateHint(icons)}
-              </div>
             </div>
+          </div>
           : null
         }
       </div>

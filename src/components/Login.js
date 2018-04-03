@@ -1,8 +1,8 @@
-/* 
+/*
     This component is used for displaying the login page, as the first page of the whole system. Which allows users
   to enter their username and start practicing passwords. It only contains two components: a text input field and
   a button.
-    The handleSubmit function is called when the users click on the 'START button, it will allow user to proceed 
+    The handleSubmit function is called when the users click on the 'START button, it will allow user to proceed
   to the password practice page.
 */
 import React, { Component } from 'react'

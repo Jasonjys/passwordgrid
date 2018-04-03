@@ -1,4 +1,4 @@
-/* 
+/*
     This component is mainly used for entering and displaying the password.
     In the componentDidUpdate function, we will check if the type of the password is change (which means users are already
   finish entering the previous type of password and proceeding to the next).

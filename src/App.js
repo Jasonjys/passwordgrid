@@ -1,4 +1,4 @@
-/* 
+/*
     App.js is the main component in this system. It is controlling which component should render base on if the user
   is logging in, practicing passwords, testing passwords. If the users haven't enter user name, it will render the
   Login component. If the user proceed to the passwords practice session, the Practice component will be rendered.
@@ -13,7 +13,7 @@
     The handleGoToTest() function is triggered when the user decide to go to the password testing session.
     The testOver() function is used to record the time that user spend and push it to the database.
     The handleLogin() function is called when the user press the "START" function in the Login component.
-  
+
 */
 import React, { Component } from 'react'
 import './App.css'

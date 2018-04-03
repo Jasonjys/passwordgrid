@@ -1,4 +1,4 @@
-/* 
+/*
     This file is for storing 40 svgs.
 */
 import React from 'react'
