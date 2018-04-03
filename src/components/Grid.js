@@ -17,7 +17,7 @@ const defaultStyle = {
 const textStyle = {
   textAlign: 'center',
   padding: 5,
-  width: 235
+  width: 255
 }
 
 class Grid extends Component {
@@ -61,7 +61,7 @@ class Grid extends Component {
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 5}}>
         {fixed
           ? <div style={textStyle}>{`Given ${passwordType} password`}</div>
-          : <div style={textStyle}>{`Unlock ${passwordType} password here:`}</div>
+          : <div style={textStyle}>{`Enter ${passwordType.toUpperCase()} password here:`}</div>
         }
         <div style={defaultStyle}>
           {squares}

@@ -11,24 +11,26 @@ class IconsContainer extends Component {
   render () {
     const { icons, category } = this.props
     return (
-      <div style={{display: 'flex', width: '100%', justifyContent: 'space-evenly', flexWrap: 'wrap'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: 10}}>
+      <div style={{display: 'flex', width: '100%'}}>
+        <div style={{display: 'flex', width: '10%', alignItems: 'center', justifyContent: 'center'}}>
           {`${pluralize.plural(category)}:`}
         </div>
-        {icons.map((icon, i) => (
-          <Icon
-            dropped={false}
-            key={icon.id}
-            index={i}
-            id={icon.id}
-            icon={icon.icon}
-            height={60}
-            width={60}
-            category={icon.category}
-            moveIcon={this.props.moveIcon}
-            selectIcon={this.props.selectIcon}
-          />
-        ))}
+        <div style={{display: 'flex', width: '90%', justifyContent: 'space-evenly', flexWrap: 'wrap'}}>
+          {icons.map((icon, i) => (
+            <Icon
+              dropped={false}
+              key={icon.id}
+              index={i}
+              id={icon.id}
+              icon={icon.icon}
+              height={60}
+              width={60}
+              category={icon.category}
+              moveIcon={this.props.moveIcon}
+              selectIcon={this.props.selectIcon}
+            />
+          ))}
+        </div>
       </div>
     )
   }

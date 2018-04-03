@@ -65,6 +65,16 @@ class App extends Component {
     return elm
   }
 
+  shuffleArray (arr) {
+    return (
+      arr
+        .slice()
+        .map(a => [Math.random(), a])
+        .sort((a, b) => a[0] - b[0])
+        .map(a => a[1])
+    )
+  }
+
   generatePassword (length) {
     const random = []
     let randomIcon
@@ -99,19 +109,20 @@ class App extends Component {
   }
 
   handleGoToTest (timeSpent) {
-    const {username} = this.state
+    const {username, passwordArray} = this.state
     firestore.collection(username).doc('practice').set({timeSpent})
-
+    firestore.collection(username).doc('test').set({timeSpent: 0})
     this.setState({
       index: 0,
-      practice: false
+      practice: false,
+      passwordArray: this.shuffleArray(passwordArray)
     })
   }
 
   testOver (timeSpent) {
     const {username} = this.state
     this.setState({testFinished: true})
-    firestore.collection(username).doc('test').set({timeSpent})
+    firestore.collection(username).doc('test').update({timeSpent})
   }
 
   handleLogin (username) {
@@ -145,6 +156,7 @@ class App extends Component {
               pw={pw}
               type={type}
               user={username}
+              isLastPW={index === 2}
               nextButtonFunc={() => this.setState({index: index + 1})}
               testOver={this.testOver}
             />
