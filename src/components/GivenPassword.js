@@ -11,6 +11,7 @@ import React, { Component } from 'react'
 import Grid from './Grid'
 import RaisedButton from 'material-ui/RaisedButton'
 import Toggle from 'material-ui/Toggle'
+import generateHint from './StoryHelper'
 
 const buttonStyle = {
   margin: 2.5
@@ -59,11 +60,16 @@ class GivenPassword extends Component {
           />
         </div>
         {!hide
-          ? <Grid
-            fixed
-            passwordType={passwordType}
-            icons={icons}
-            />
+          ? <div>
+              <Grid
+              fixed
+              passwordType={passwordType}
+              icons={icons}
+              />
+              <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
+                Hint: {generateHint(icons)}
+              </div>
+            </div>
           : null
         }
       </div>
