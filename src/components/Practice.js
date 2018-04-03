@@ -57,7 +57,8 @@ class Practice extends Component {
           open={dialogOpen}
           onRequestClose={() => this.setState({dialogOpen: false})}
         >
-          You cannot view your passwords during the test. Are you sure you want to proceed?
+          <p>You cannot view your passwords during the test. Are you sure you want to proceed?</p>
+          <p style={{color: 'red', fontSize: 13}}>IMPORTANT: Passwords may appear in random order.</p>
         </Dialog>
         <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
           <RaisedButton
