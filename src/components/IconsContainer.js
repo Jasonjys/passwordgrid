@@ -1,3 +1,8 @@
+/* 
+    This component is used to render all the Icon components. It takes the array of icons as the props and
+  render all the Icon components while passing all the information that the Icon needs (e.g category, moveIcon
+  function, index, etc).
+*/
 import React, { Component } from 'react'
 import pluralize from 'pluralize'
 import Icon from './Icon'

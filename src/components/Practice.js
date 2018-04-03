@@ -1,3 +1,8 @@
+/* 
+    This component is used to render the practice session, allowing user to practice three set of password, it will
+  render the Password component.
+    The testStart() function is used to calculate the time that user spend on practicing.
+*/
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
@@ -51,7 +56,8 @@ class Practice extends Component {
           open={testDialogOpen}
           onRequestClose={() => this.setState({testDialogOpen: false})}
         >
-          You cannot view your passwords during the test. Are you sure you want to proceed?
+          <p>You cannot view your passwords during the test. Are you sure you want to proceed?</p>
+          <p style={{color: 'red', fontSize: 13}}>IMPORTANT: Passwords may appear in random order.</p>
         </Dialog>
         <Dialog
           title='Guide'

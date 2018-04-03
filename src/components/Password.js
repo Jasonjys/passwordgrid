@@ -1,3 +1,17 @@
+/* 
+    This component is mainly used for entering and displaying the password.
+    In the componentDidUpdate function, we will check if the type of the password is change (which means users are already
+  finish entering the previous type of password and proceeding to the next).
+    The generateIcon function is used to seperate the array of icons with length 40 into four different array,
+  representing four different type of password.
+    The selectIcon, dropIcon and moveIcon function is used to recording every single action that the user does and
+  push into the database.
+    The handleSubmit function is called when the user is done entering all the passwords in the test session.
+    The comparePassword function is used to compare the password the user enter and the actual password.
+    The clearGrid function is used to clear the whole grid, in order to prevent user remove icons in the grid
+  one by one.
+*/
+
 import React, { Component } from 'react'
 import _ from 'lodash'
 import moment from 'moment'
