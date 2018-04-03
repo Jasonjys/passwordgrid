@@ -78,7 +78,37 @@ class GivenPassword extends Component {
             onToggle={() => this.setState({hide: !hide})}
           />
         </div>
+<<<<<<< HEAD
         {!hide ? this.renderGrid() : null}
+||||||| merged common ancestors
+        {!hide
+          ? <div>
+            <Grid
+              fixed
+              passwordType={passwordType}
+              icons={icons}
+              />
+            <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
+                Hint: {generateHint(icons)}
+            </div>
+          </div>
+          : null
+        }
+=======
+        {!hide
+          ? <div>
+            <Grid
+              fixed
+              passwordType={passwordType}
+              icons={icons}
+              />
+              <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
+                Hint: {generateHint(icons, passwordType)}
+              </div>
+            </div>
+          : null
+        }
+>>>>>>> aabcf18d04e311af2ba59e69746a6e59984e0f0f
       </div>
     )
   }

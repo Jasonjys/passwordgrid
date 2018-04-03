@@ -1,9 +1,16 @@
-export default (pw) => {
+export default (pw, type) => {
   let country = []
   let landmark = []
   let food = []
   let animal = []
   let hint
+  if (type === 'email') {
+    hint = 'After sending emails,'
+  } else if (type === 'banking') {
+    hint = 'After online banking,'
+  } else {
+    hint = 'After shopping,'
+  }
   pw.forEach((item) => {
     if (item.category === 'country') {
       country.push(item.icon)
@@ -17,9 +24,9 @@ export default (pw) => {
   })
   if (country.length || animal.length) {
     if (!animal.length) {
-      hint = `The people in ${concatWords(country)}`
+      hint = `${hint} the people in ${concatWords(country)}`
     } else {
-      hint = `${concatWords(country)} ${concatWords(animal)}`
+      hint = `${hint} ${concatWords(country)} ${concatWords(animal)}`
     }
     if (!food.length && landmark.length) {
       hint = `${hint} chilled at ${concatWords(landmark)}`
@@ -32,11 +39,11 @@ export default (pw) => {
     }
   } else if (!(country.length && animal.length)) {
     if (!food.length) {
-      hint = `I chilled at ${concatWords(landmark)}`
+      hint = `${hint} I chilled at ${concatWords(landmark)}`
     } else if (!landmark.length) {
-      hint = `I ate ${concatWords(food)}`
+      hint = `${hint} I ate ${concatWords(food)}`
     } else {
-      hint = `I ate ${concatWords(food)} at ${concatWords(landmark)}`
+      hint = `${hint} I ate ${concatWords(food)} at ${concatWords(landmark)}`
     }
   }
   return hint
