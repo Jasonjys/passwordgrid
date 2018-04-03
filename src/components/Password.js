@@ -286,7 +286,7 @@ class Password extends Component {
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <RaisedButton
             primary
-            label='Validate'
+            label='Check'
             style={buttonStyle}
             buttonStyle={{width: 100}}
             labelColor='#ffffff'
@@ -360,25 +360,25 @@ class Password extends Component {
       <div style={{width: '100%'}}>
         <IconsContainer
           icons={country}
-          category={'country'}
+          category={'Country'}
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
         <IconsContainer
           icons={landmark}
-          category={'landmark'}
+          category={'Landmark'}
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
         <IconsContainer
           icons={food}
-          category={'food'}
+          category={'Food'}
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />
         <IconsContainer
           icons={animal}
-          category={'animal'}
+          category={'Animal'}
           moveIcon={this.moveIcon}
           selectIcon={this.selectIcon}
         />

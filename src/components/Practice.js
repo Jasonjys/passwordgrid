@@ -57,7 +57,7 @@ class Practice extends Component {
           onRequestClose={() => this.setState({testDialogOpen: false})}
         >
           <p>You cannot view your passwords during the test. Are you sure you want to proceed?</p>
-          <p style={{color: 'red', fontSize: 13}}>IMPORTANT: Passwords may appear in random order.</p>
+          <p style={{color: 'red', fontSize: 14}}>IMPORTANT: Passwords may appear in random order.</p>
         </Dialog>
         <Dialog
           title='Guide'
@@ -66,8 +66,8 @@ class Practice extends Component {
           open={guideDialogOpen}
           onRequestClose={() => this.setState({guideDialogOpen: false})}
         >
-          <p style={{margin: 5}}>You are given three sets of passwords: email, banking, and shopping. Please try to memorize them.</p>
-          <p style={{margin: 5}}>Proceed to the test once you memorized them by clicking 'I AM DONE PRACTICING, TAKE ME TO TEST'.</p>
+          <p style={{margin: 5}}>You are given three passwords: email, banking, and shopping. Please try to memorize them.</p>
+          <p style={{margin: 5}}>Click on I AM DONE PRACTICING, TAKE ME TO TEST to proceed to the test once you memorized them.</p>
         </Dialog>
         <Password
           test={false}
@@ -78,7 +78,7 @@ class Practice extends Component {
           switchPassword={switchPassword}
           generateNew={generateNew}
         />
-        <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
+        <div style={{display: 'flex', width: '100%', justifyContent: 'center', marginTop: 20}}>
           <RaisedButton
             label='I am done practicing, take me to test!'
             style={{margin: 5}}
