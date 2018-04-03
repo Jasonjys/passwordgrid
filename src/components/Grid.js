@@ -1,4 +1,4 @@
-/* 
+/*
     Grid is a basic component in this system. It can either showing the given passwords with the 'fixed={true}' props,
   or showing the empty grid to allow user drag and drop icons into it with the 'fixed={false}' props.
 */

@@ -1,6 +1,6 @@
-/* 
+/*
     This component is used to create a grid for user to enter password, which allows user to drag and drop icons into
-  this component. 
+  this component.
     The collect function is used for the react-dnd set up.
 */
 import React, { Component } from 'react'

@@ -1,5 +1,3 @@
-import pluralize from 'pluralize'
-
 export default (pw, type) => {
   let country = []
   let landmark = []
@@ -51,20 +49,13 @@ export default (pw, type) => {
   return hint
 }
 
-const pluralizes = (array) => {
-  return array.map((item) => {
-    return pluralize(item)
-  })
-}
-
 const concatWords = (array) => {
-  console.log(array)
-  let word = ""
-  if (array.length === 1){
+  let word = ''
+  if (array.length === 1) {
     word = array[0]
   } else {
-    array.forEach((item, key)=>{
-      if (key === array.length -1) {
+    array.forEach((item, key) => {
+      if (key === array.length - 1) {
         word = `${word} ${item}`
       } else {
         word = `${word} ${item} and`
