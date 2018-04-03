@@ -26,19 +26,19 @@ export default (pw) => {
     if (!food.length && landmark.length) {
       hint = `${hint} chilled at ${concatWords(landmark)}`
     } else if (food.length && !landmark.length) {
-      hint = `${hint} love ${concatWords(food)}`
+      hint = `${hint} ate ${concatWords(food)}`
     } else if (!food.length && !landmark.length) {
       hint = `${hint} had a good time`
     } else {
-      hint = `${hint} love ${concatWords(food)} at ${concatWords(landmark)}`
+      hint = `${hint} ate ${concatWords(food)} at ${concatWords(landmark)}`
     }
   } else if (!(country.length && animal.length)){
     if(!food.length){
       hint = `I chilled at ${concatWords(landmark)}`
     } else if(!landmark.length){
-      hint = `I loves ${concatWords(food)}`
+      hint = `I ate ${concatWords(food)}`
     } else {
-      hint = `I loves ${concatWords(food)} at ${concatWords(landmark)}`
+      hint = `I ate ${concatWords(food)} at ${concatWords(landmark)}`
     }
   }
   return hint
