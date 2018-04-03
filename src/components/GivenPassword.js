@@ -68,7 +68,7 @@ class GivenPassword extends Component {
               icons={icons}
               />
               <div style={{fontSize: 10, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', width: 250, height: 20}}>
-                Hint: {generateHint(icons)}
+                Hint: {generateHint(icons, passwordType)}
               </div>
             </div>
           : null
