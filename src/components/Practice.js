@@ -15,7 +15,8 @@ class Practice extends Component {
     this.testStart = this.testStart.bind(this)
     this.state = {
       start: Date.now(),
-      dialogOpen: false
+      guideDialogOpen: true,
+      testDialogOpen: false
     }
   }
 
@@ -26,13 +27,13 @@ class Practice extends Component {
 
   render () {
     const {type, pw, user, switchPassword, generateNew} = this.props
-    const {dialogOpen} = this.state
+    const {testDialogOpen, guideDialogOpen} = this.state
 
-    const actions = [
+    const testDialogActions = [
       <FlatButton
         primary
         label='Cancel'
-        onClick={() => this.setState({dialogOpen: false})}
+        onClick={() => this.setState({testDialogOpen: false})}
       />,
       <FlatButton
         primary
@@ -40,8 +41,34 @@ class Practice extends Component {
         onClick={() => this.testStart()}
       />
     ]
+    const GuideDialogActions = [
+      <FlatButton
+        primary
+        label='Ok'
+        onClick={() => this.setState({guideDialogOpen: false})}
+      />
+    ]
     return (
       <div style={{height: '100%', width: '100%'}}>
+        <Dialog
+          actions={testDialogActions}
+          modal={false}
+          open={testDialogOpen}
+          onRequestClose={() => this.setState({testDialogOpen: false})}
+        >
+          <p>You cannot view your passwords during the test. Are you sure you want to proceed?</p>
+          <p style={{color: 'red', fontSize: 13}}>IMPORTANT: Passwords may appear in random order.</p>
+        </Dialog>
+        <Dialog
+          title='Guide'
+          actions={GuideDialogActions}
+          modal={false}
+          open={guideDialogOpen}
+          onRequestClose={() => this.setState({guideDialogOpen: false})}
+        >
+          <p style={{margin: 5}}>You are given three sets of passwords: email, banking, and shopping. Please try to memorize them.</p>
+          <p style={{margin: 5}}>Proceed to the test once you memorized them by clicking 'I AM DONE PRACTICING, TAKE ME TO TEST'.</p>
+        </Dialog>
         <Password
           test={false}
           user={user}
@@ -51,30 +78,15 @@ class Practice extends Component {
           switchPassword={switchPassword}
           generateNew={generateNew}
         />
-        <Dialog
-          actions={actions}
-          modal={false}
-          open={dialogOpen}
-          onRequestClose={() => this.setState({dialogOpen: false})}
-        >
-          <p>You cannot view your passwords during the test. Are you sure you want to proceed?</p>
-          <p style={{color: 'red', fontSize: 13}}>IMPORTANT: Passwords may appear in random order.</p>
-        </Dialog>
         <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
           <RaisedButton
             label='I am done practicing, take me to test!'
             style={{margin: 5}}
             labelColor='#ffffff'
-            onClick={() => this.setState({dialogOpen: true})}
+            onClick={() => this.setState({testDialogOpen: true})}
             labelStyle={{fontSize: 15, fontWeight: 500}}
             backgroundColor='#88bc5e'
           />
-        </div>
-        <div style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '0px 30px'}}>
-          <h3 style={{marginTop: 10, marginBottom: 5}}>Guide:</h3>
-          <p style={{margin: 0}}>You are given three sets of passwords: email, banking, and shopping. Please try to memorize them.</p>
-          <p style={{margin: 0}}>You can proceed to the test once you memorized them by clicking 'I AM DONE PRACTICING,
-            TAKE ME TO THE TEST'.</p>
         </div>
       </div>
     )
