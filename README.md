@@ -1,10 +1,16 @@
 # Passwordgrid
-
-Group member: Yaoshen Jiang, Qianyi Yu, Qingyi Yin, Yuzhong Hu, Kurt Chavolla-Wolf<br>
+Website: https://jasonjys.github.io/passwordgrid<br>
+Group members: Yaoshen Jiang, Qianyi Yu, Qingyi Yin, Yuzhong Hu, Kurt Chavolla-Wolf<br>
 An easy to use password system that focus on assigned random passwords with consistent password spaces. Our primary goal of usability will be the memorability of passwords, and the speed of password entry.<br>
-Users are given a 2x2 grid that filled with 4 icons as their password and they are able to unlock by placing correct icons at correct positions.<br> 
+Users are given a 2x2 grid that filled with 4 icons as their password and they are able to unlock by placing correct icons at correct positions.<br>
 
-All beautiful Icons are privided by https://www.flaticon.com/
+All beautiful icons are privided by https://www.flaticon.com/
+
+## Compile Instructions
+0. make sure you have node installed
+1. `cd  passwordgrid`
+2. `npm install` to install node modules
+3. `npm start` to start it in the browser
 
 ## Main components
 `<Practice />`<br>
