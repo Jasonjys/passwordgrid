@@ -1,3 +1,5 @@
+/*This component a function that used to generate hints base on the given icons
+*/
 export default (pw, type) => {
   let country = []
   let landmark = []
