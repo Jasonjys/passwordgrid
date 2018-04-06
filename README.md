@@ -3,16 +3,42 @@
 Group member: Yaoshen Jiang, Qianyi Yu, Qingyi Yin, Yuzhong Hu, Kurt Chavolla-Wolf<br>
 An easy to use password system that focus on assigned random passwords with consistent password spaces. Our primary goal of usability will be the memorability of passwords, and the speed of password entry.<br>
 Users are given a 2x2 grid that filled with 4 icons as their password and they are able to unlock by placing correct icons at correct positions.<br> 
-This password system can be test in here: https://jasonjys.github.io/passwordgrid/<br>
-Instruction:
-<br> Step 1: Enter user name in the text input box, and press 'START' to start practice passwords.
-<br> Step 2: After proceeding to the passwords practice session, users are given three sets of passwords to 
-    memorize. All icons can be clicked or dragged into the grid. Users can also using hints that placed under the
-    grid to remember the given passwords.
-<br> Step 3: After finishing remember all the passwords, users can press the “DONE PRACTICING” button at the bottom to proceed to the passwords testing session.
-<br> Step 4: In the passwords testing session, users are required to enter three sets of passwords in a random order, they can click 'SUBMIT' button to submit their passwords to see if the entered passwords are correct or not. Users only have at most three attempts.
-<br> Step 5: After finishing all the passwords, users can press the 'END TEST' button to submit and exist. There is questionnaire at the end of this system so that users can answer it after finishing the test.
 
+All beautiful Icons are privided by https://www.flaticon.com/
+
+## Main components
+`<Practice />`<br>
+`<Test />`<br>
+`<GivenPassword />`<br>
+`<Password />`<br>
+`<IconsContainer />`<br>
+`<Icon />`<br>
+`<Grid />`<br>
+`<Square />`<br>
+
+## System Instructions
+
+### Step 1
+
+Enter user name in the text input box, and press 'START' to start practising.
+
+### Step 2
+
+Users are given three passwords to memorize. All icons can be clicked or dragged into the grid. Control buttons are to the left. Users are able to switch passwords, regenerate current password and hide passowrds for practice purpose.
+
+### Step 3
+
+After memorized all the passwords, press “DONE PRACTICING” button at the bottom to proceed to the  testing session.
+
+### Step 4
+
+In the passwords testing session, users are required to enter three passwords in a random order. Click 'SUBMIT' button to check correctness. Users only have three maximum attempts for each password.
+
+### Step 5
+
+Press the 'END TEST' button to submit and exist when you are done. A questionnaire will be given at the end.
+
+################################################# <br>
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
